@@ -1,8 +1,8 @@
-Majoritatea sistemelor de tip interfon, chiar si cele nou instalate sunt bazate pe o tehnologie numita POTS (Plain Old Telephone Service) \cite{WinNT}
+Majoritatea sistemelor de tip interfon, chiar si cele nou instalate, sunt realizate cu terminale de telefonie fixa datorita simplitudinii modului de operare. In esenta este nevoie de 4 fire pentru a avea o linie de telecomunicatie bi-directionala.
 
 \href{https://www.epanorama.net/documents/telecom/telephone_intercom.html}{Simple schema}
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \centering
   \fbox {
     \includegraphics[width=0.8\textwidth]{01/interfon_schem.pdf}  
@@ -10,13 +10,44 @@ Majoritatea sistemelor de tip interfon, chiar si cele nou instalate sunt bazate 
   \caption{Schema simpla interfon cu speaker}
 \end{figure}
 
+\section {Plain Ordinary Telephone System}
+
+Pentru a adauga mai multe terminale in retea, a fost dezvoltata tehnologia numita POTS (Plain Ordinary Telephone Service). Coordonarea acestui sistem este realizata de un decodor DTMF ce are rolul de a transforma semnalul modulat de pe linia X intr-o adresa din retea. 
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=0.8\textwidth]{01/dtmf.jpeg}  
+  }
+  \caption{Diagrama DTMF}
+\end{figure}
+
+In DTMF randurile sunt numite si GROUP JOS (cu frecvente intre 600 si 900 $Hz$), iar coloanele sunt numite GROUP INALT. Asadar, cand se apasa tasta 8 a unui terminal, frecventa de $852 Hz$ este aleasa din grupulul JOS si frecventa $1336 Hz$ sunt emise in acelasi timp.
+
+
+Decodorul DTMF foloseste filtre Notch pentru acest procedeu.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=0.8\textwidth]{01/schema_pots.jpeg}  
+  }
+  \caption{Schema sistem POTS}
+\end{figure}
+
+\cite{WinNT}
+
+
+
 \href{https://www.nextiva.com/blog/what-is-pots.html}{Alt articol}
 
-O evolutie normala de la acest sistem, ca si trecerea de la telefonul fix la cel mobil, sunt interfoanele GSM. Acestea au un modul GSM si o agenda telefonica, ce le permite locatarilor sa ofere accesul sau nu in incinta.
+O evolutie normala de la acest sistem, ca si trecerea de la telefonul fix la cel mobil, sunt interfoanele GSM. Acestea dispun de un modul GSM cu o agenda ce are rolul de a oferi acces numerelor salvate sa interactioneze cu sistemul.
+
 
 \section {Videx UK}
 
 \href{https://www.videxuk.com/system/gsm-intercoms/}{Videx UK}
+
 
 \section {Interfon GSM}
 
