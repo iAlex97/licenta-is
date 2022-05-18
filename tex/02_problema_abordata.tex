@@ -1,7 +1,40 @@
 \section {Formularea problemei}
 
+In urma studiului de piata din capitolul anterior am concluzionat ca exista un segment de utilizatori care ar fi interesati in a folosi un astfel de sistem. In cele ce urmeaza voi prezenta 
 
 \section {Studiu asupra realizărilor similare din domeniu}
 
 \section {Stabilirea cerințelor funcționale si nefuncționale ale sistemului}
 
+\subsection{Controlul accesului intr-o cladire}
+
+Scopul principal al acestui sistem este de a oferi sau nu acces intr-o incinta, prin urmare consider aceasta cea mai importanta cerinta functionala.
+
+\subsection{Expunerea unui serviciu REST pentru interfatarea cu alte sisteme}
+
+Expunerea si abstractizarea terminalului \acrshort{pots} este realizata printr-un set de servicii \acrfull{rest} care controleaza starea sa. Acest lucru ne permite interfatarea cu aplicatia mobila, interfata de administrare web si alte servicii precum Google Home/Google Assistant/Apple Home.
+
+\subsection{Implementarea unei functii pentru raspuns automat}
+
+Aceasta functie va permite utilizatorului sa stabileasca o perioada de timp pentru care sistemul va oferi accesul neconditionat.
+
+\subsection{Dezvoltarea unui client mobil Android}
+
+Principalul client care va interactiona cu serviciile \acrshort{rest} va fi aplicatia mobila ce va avea rolul de a notifica userul cand ii suna interfonul si de a controla starea sistemului.
+
+\subsection{Control granular asupra datelor stocate}
+
+Arhitectura aplicatiei necesita interactiunea cu o baza de date, care poate fi tinuta in cloud, pentru convenabilitate sau local.
+Folosind tehnologii de containerizare precum Docker, putem stoca baza de date local, informatiile fiind stocate intr-un mediu controlat.
+
+\subsection{Criptarea comunicatiilor cu serviciile web}
+
+Avand in vedere nivelul de acces pe care l-ar oferi un exploit al acestei solutii, comunicatiile intre server si clienti trebuie realizate printr-un canal criptat de tip \acrfull{ssl}. Credentialele userului si ulterior tokenul de acces trebuie trimise doar dupa verificarea autenticitatii serverului si a pachetelor trimise.
+
+\subsection{Oferirea si revocarea accesului la sistem}
+
+Dorim de exemplu sa oferim acces neconditionat unui prieten apropiat pentru a intra in bloc fara a mai suna la interfon. De asemenea ar trebui sa putem realiza si inversul acestei operatii.
+
+\subsection{Expunerea unui flux duplex audio prin tehnologia VoIP}
+
+Pasul final in dezvoltarea acestui sistem ar fi interfatarea cu un \acrfull{adc} si un \acrfull{dac} si expunerea streamurilor de date prin \acrfull{voip}

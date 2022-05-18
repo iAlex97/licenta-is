@@ -3,6 +3,8 @@
 
 document:
 	pdflatex main.tex
+	makeglossaries main
+	pdflatex main.tex
 
 bibliography:
 	biber main

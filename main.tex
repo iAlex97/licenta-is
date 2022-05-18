@@ -12,6 +12,7 @@
 \usepackage{booktabs}
 \usepackage{biblatex}
 % \usepackage{fancyhdr}
+\usepackage[acronym]{glossaries}
 
 \usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
@@ -43,6 +44,18 @@
 
 % \pagestyle{fancy}
 
+\makeglossaries
+
+\newacronym{iot}{IoT}{Internet of Things}
+\newacronym{ssl}{SSL}{Secure Sockets Layer}
+\newacronym{adc}{ADC}{Analog to Digital Convertor}
+\newacronym{dac}{DAC}{Digital to Analog Convertor}
+\newacronym{voip}{VoIP}{Voice Over IP}
+\newacronym{pots}{POTS}{Plain Old Telephone Service}
+\newacronym{rest}{REST}{Representational State Transfer}
+\newacronym{rfid}{RFID}{Radio-Frequency Identification}
+
+% title and other info
 \title{Sistem IoT pentru controlul\\accesului in clădire}
 \date{2021\\ Noiembrie}
 \author{Ionescu Alexandru Cristian}
@@ -78,6 +91,10 @@
 % \chapter{Bill of Materials}
 % \input{tex/09_bill_of_materials}
 
+\clearpage
+
+\printglossary[type=\acronymtype]
+\printglossary
 
 \printbibliography
 
