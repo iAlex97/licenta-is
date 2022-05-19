@@ -4,6 +4,78 @@ In urma studiului de piata din capitolul anterior am concluzionat ca exista un s
 
 \section {Studiu asupra realizărilor similare din domeniu}
 
+
+\subsection {Videx UK}
+
+Interfoanele \acrshort{gsm} de la Videx sunt conectate la reteaua mobila de telefonie si permit operarea unei porti prin intermediul unui releu. Ele necesita doar o sursa de curent externa, o antena si o cartela \acrfull{sim} pentru a opera.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=0.6\textwidth]{02/01_gsm_system.jpg}  
+  }
+  \caption{Sistem interfon Videx GSM \cite{VidexUk}}
+\end{figure}
+
+Printre functionalitatile principale se numara:
+\begin{itemize}
+  \item Poate include un cititor de carduri \acrshort{rfid} si cheie
+  \item Versiune rezistenta la vandalism
+  \item Pana la 4 numere de telefon per apartament, pentru redundanta. In cazul in care primul numar nu se poate apela sau nu raspunde, se va incerca urmatorul numar programat
+  \item Ofera aplicatie Android si iOS pentru programat unitatea
+\end{itemize}
+
+Dezavantaje:
+
+\begin{itemize}
+  \item Nu ofera integrare cu servicii din reteaua \acrshort{iot}
+\end{itemize}
+
+\subsection {Google Nest x Yale Lock}
+
+\href{https://www.amazon.com/Nest-Yale-Satin-Nickel-Connect/dp/B07BH6K3NT?th=1}{Amazon listing}
+
+Avantaje:
+\begin{itemize}
+  \item Permite accesul prin intermediul unui PIN ales de utilizator
+  \item Ofera alerte cand cineva inchide sau deschide usa
+  \item Ofera integrare cu Google Home si Nest Home
+\end{itemize}
+
+Dezavantaje:
+\begin{itemize}
+  \item Are nevoie de 4 baterii tip AA pentru a functiona
+  \item Nu are acces cu cheie sau cartela
+  \item Nu are versiune rezistenta
+\end{itemize}
+
+
+\subsection {Level Lock - Touch Edition}
+
+Level Lock este o incuietoare inteligenta de tip zavor. Are un design minimalist si ascunde partea electronica in interiorul usii pentru mai multa securitate.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=0.6\textwidth]{02/03_iot_system.jpg}  
+  }
+  \caption{Level Lock \cite{LevelLock}}
+\end{figure}
+
+Avantaje:
+\begin{itemize}
+  \item Multiple modalitati de acces, printre care: amprenta, PIN, 
+  \item Ofera alerte cand cineva inchide sau deschide usa
+  \item Ofera integrare cu Google Home si Nest Home
+\end{itemize}
+
+
+\href{https://www.apple.com/shop/product/HPFY2ZM/A/level-lock-touch-edition?fnode=648f1e74ceef61358f897cd3f7cdb053262fd38bbffcd78c49f653a17d8b06312e1d22bd76ab325e817a33264364be774af0cc44d3ce62d8efcc0301ce4fbedabf176781e07520161f01ce6f69b6cb8ad4774b3cc302ff5d1dfc2d1524cf313aaeb1b1323955c95e3319224270e9b632&fs=fh%3D482b%252B45ae}{Apple listing}
+
+\subsection {Comparatii}
+
+Fiecare produs adreseaza o nisa specifica si are functii similare, dar subtil diferite.
+
 \section {Stabilirea cerințelor funcționale si nefuncționale ale sistemului}
 
 \subsection{Controlul accesului intr-o cladire}
@@ -12,7 +84,7 @@ Scopul principal al acestui sistem este de a oferi sau nu acces intr-o incinta, 
 
 \subsection{Expunerea unui serviciu REST pentru interfatarea cu alte sisteme}
 
-Expunerea si abstractizarea terminalului \acrshort{pots} este realizata printr-un set de servicii \acrfull{rest} care controleaza starea sa. Acest lucru ne permite interfatarea cu aplicatia mobila, interfata de administrare web si alte servicii precum Google Home/Google Assistant/Apple Home.
+Expunerea si abstractizarea terminalului \acrshort{pots} este realizata printr-un set de servicii \acrfull{rest} care controleaza starea sa. Acest lucru ne permite interfatarea cu aplicatia mobila, interfata de administrare web si alte servicii precum Google Home/Google Assistant/Apple HomeKit.
 
 \subsection{Implementarea unei functii pentru raspuns automat}
 
