@@ -1,7 +1,25 @@
-\section {Arhitectura aplicației}
+\section {Arhitectura sistemului}
+
+Sistemul prezentat presupune atat o partare hardware, cat si una software. Hardwareul realizeaza adaptarea dintre terminalul analog POTS si placa digitala de dezvoltare Raspberry Pi, iar ca software am folosit NodeJS pentru server si Android pentru a implementa un client al serverului
+
+\subsection {Raspberry Pi HUT}
+
+Pentru a proiecta un \acrfull{pcb} am folosit softwareul Fritzing. Acesta permite proiectarea schemei electrice si ulterior trasarea conexiunilor pe layoutul fizic al placii.
+
+Actionarea butoanelor terminalului \acrshort{pots} se realizeaza cu ajutorul unor opto-cuploare, izoland circuitul interfonului care este proiectat pentru a functiona cu spike-uri de pana la $90V$ de circuitul Raspberry Pi.
+
+Detectarea unui apel este realizata prin legarea unui \acrfull{mosfet} la bornele difuzorului terminalului \acrshort{pots} si inserierea cu un amplificator operational in regim de comparator cu referinta de $0.1V$. Am folosit de asemenea si un Filtru Trece Jos deoarece terminalul este sensibil la zgomote, declansand accidental notificarea.
+
+\subsection {Webserver NodeJS}
+
+NodeJS este un
+
+\subsection {Android}
+
+Android este o platforma mobile care s-a maturizat pe parcusul a 12 versiuni majore si principalul competitor de piata al iOS.
 
 
-\section {Implementarea aplicației}
+\section {Implementarea sistemului}
 
 
-\section {Testarea aplicației}
+\section {Testarea sistemului}
