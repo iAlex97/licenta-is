@@ -1,4 +1,36 @@
 \section {Stadiul actual al tehnologiilor utilizate pentru dezvoltarea soluției}
 
+\subsection {Hardware}
+
+Deoarece proiectul necesita atat interactiunea cu sisteme electrice cat si cu sisteme digitale precum stiva \acrshort{ip}, am ales placa de dezvoltare "Raspberry Pi 3 Model B Rev 1.2". Aceasta ofera un procesor quad core cu arhitectura armv7 de 1.2 Ghz, 1 GB RAM si 26 de pini \acrfull{gpio} pentru interactiunea cu terminalul \acrshort{pots}.
+
+\subsection {Backend}
+
+Intr-un studiu anual realizat de Stack Overflow, peste $80,000$ de dezvoltatori au ales JavaScript ca cel mai folosit limbaj de programare pentru al noualea an consecutiv. NodeJS a urcat pe locul 5 in popularitate, in timp ce Typescript este pe locul 6. Datorita cerintei de portabilitate am ales NodeJS ca limbaj pentru implementarea serverului aplicatiei. \cite{StackOverflow2021Survey}
+
+Printre alternative viabile pentru acest tip de proiect se numara Java, C\# sau Python, limbaje aflate in primele 10 in topul celor de la Stack Overflow.
+
+Ca framework de dezvoltare a serverului am ales NestJS, oferind o arhitectura \acrfull{mvc} si multe functionalitati convenabile precum:
+
+\begin{itemize}
+  \item Framework de injectare a dependintelor: graful (aciclic) de dependinte al aplicatiei este calculat la pornire, fiecarui modul ii sunt satisfacute dependintele, instantiindu-se obiectele necesare o singura data. Daca sunt detectati cicli in graful de dependinte sau nu exista informatii despre cum se poate instantia o clasa, atunci se va arunca o eroare de runtime si aplicatia va iesi cu un status code de eroare. 
+  \item Separarea logicii de control a aplicatiei de interfata si de date. Utilizatorul interactioneaza cu interfata, care notifica controllerul de actiunile utilizatorului, controllerul executa logica aplicatiei si actualizeaza modelul corespunzator, schimbari ce se vor reflecta in interfata.
+  \item Imbina elemente de \acrfull{oop}, \acrfull{fp} si \acrfull{frp}. De exemplu: modulele si serviciile sunt clase, iar decoratorii claselor sunt functii care modifica comportamentul functiilor adnotate prin compunere.
+
+\end{itemize}
+
+\subsection {Baza de date}
+
+Din punct de vedere al scalabilitatii, pradigma relationala scaleaza vartical (putine servere puternice), pe cand cea nerelationala este orizontala (multe servere mici). Prin urmare am ales MongoDB, o solutie de tip NoSQL rulata in modul "cluster" pentru a oferi redundanta datelor prin replicarea lor de 3 ori pe noduri diferite fizic.
+
+Deoarece MongoDB are nevoie de suport pentru 64 biti, nu poate fi instalata pe acelasi Raspberry Pi unde va rula si serverul. Pentru simplitudine, am ales un serviciu online de hosting gratis, numit Mongo Atlas. Asadar, serverul NodeJS trebuie sa tina cont de eventuala latenta mai ridicata in comunicarea cu baza de date si retransmiterea comenzilor in cazul in care niciunul din nodurile clusterului nu este disponibil.
+
+\subsubsection {Object Document Mapping}
+
+Pentru transformarea si validarea obiectelor de JavaScript in documente ce vor fi stocate in baza de date, am ales Mongoose.
+
+\subsection {Client}
+
+
 
 \section {Prezentarea tehnologiilor si platformelor de dezvoltare alese}
