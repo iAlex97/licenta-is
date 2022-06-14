@@ -6,11 +6,30 @@ O alta abordare populara in proiectarea acestor sisteme este dezvoltarea unui co
 
 In functie de complexitatea solutiei, partea responsabila pentru procesarea evenimentelor poate varia de la un simplu server conectat la o baza de date pana la un cluster de big-data compus din sute de noduri capabile sa ruleze algoritmi de agregare distribuiti.
 
+
+\subsection {Apple, Amazon, Google}
+
 Potrivit articolului \cite{AppleRebuildsSiriMesos}, Apple foloseste Apache Mesos, un manager open-source pentru clustere de computatie capabil sa scaleze pana la zeci de mii de noduri pentru a rula serviciile necesare asistentului inteligent Siri intr-o maniera care ofera redundanta la eroare. Urmatorul nivel de integrare vine de la compania Amazon, care ruleaza algoritmii asistenutlui sau inteligent Alexa pe platforma sa de servicii web, \acrfull{aws}. Intr-o maniera similara putem specula ca o companie precum Google foloseste tehnologia sa de orchesterare pentru clustere de computatie, Kubernetes, pentru a rula serviciile necesare Google Assistant.
 
-Toate aceste solutii includ integrari cu sisteme \acrshort{iot} precum lumini inteligente, aspiratoare autonome sau incuietori inteligente au o complexitare ridicata, justificand necesitatea unui cluster computational distribuit. Proiectandu-ne propriul sistem, beneficiem de libertate in modelarea problemei si alegerea protocoalelor de comunicare. Asadar, se poate concepe un sistem \acrshort{iot} care sa ofere un set de functionalitati mai restrans, folosind hardware disponibil consumatorilor de rand si tehnologii software open-source.
+Toate aceste solutii includ integrari cu sisteme \acrshort{iot} precum lumini inteligente, aspiratoare autonome sau incuietori inteligente au o complexitare ridicata, justificand necesitatea unui cluster computational distribuit. 
 
-Aditional, pentru o integrare minimala cu unul din asistentii personali mentionati mai sus, de obicei este pus la dispozitia dezvoltatorilor un API bazat pe webhook-uri. Acesta sarcina presupune implementarea unor servicii \acrshort{rest} pe baza unui protocol prestabilit. 
+\subsection {Espressif}
+
+Espressif Systems ofera o abordare alternativa problemei, prin protocolul de comunicatii Esspressif care compacteaza 5 layere din stiva \acrfull{osi} intr-unul singur, reducand latenta cauzata de pierderea pachetelor in retele congestionate. Fiind mai simplu, iroseste mai putini cicli ai microprocesorului si consuma mai putina memorie. Pentru a permite interactiunea senzorilor si actorilor Esspressif cu dispozitive mobile care nu implementeaza acest protocol este nevoie de un gateway care sa realizeze traducerea pachetelor intre cele doua retele, insa acest lucru este optional.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=0.6\textwidth]{03/01_espressif_gateway.png}  
+  }
+  \caption{Sistem interconectare actori Espressif la internet \cite{StackOverflow2021Espressif}}
+\end{figure}
+
+Din perspectiva utilizatorului, dispozitivele noi necesita un pas de imperechere in retea, dupa acest pas fiind complet autonome. Chiar daca frameworkul ofera functii ajutatoare pentru criptarea informatiilor transmise, aplicatiile pot alege sa implementeze metoda standard Curve25519, sa isi implementeze propriul mecanism de criptare sau chiar sa o dezactiveze complet.
+
+Proiectandu-ne propriul sistem, beneficiem de libertate in modelarea problemei si alegerea protocoalelor de comunicare. Asadar, se poate concepe un sistem \acrshort{iot} care sa ofere un set de functionalitati mai restrans, folosind hardware disponibil consumatorilor de rand si tehnologii software open-source.
+
+Aditional, pentru o integrare minimala cu unul din asistentii personali mentionati mai sus, de obicei este pus la dispozitia dezvoltatorilor un API bazat pe webhook-uri. Acesta sarcina presupune implementarea unor servicii \acrshort{rest} pe baza unor specificiatii prestabilite. 
 
 \section {Prezentarea tehnologiilor si platformelor de dezvoltare alese}
 
