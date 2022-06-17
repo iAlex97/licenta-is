@@ -6,6 +6,14 @@ Sistemul prezentat presupune atat o partare hardware, cat si una software. Hardw
 
 Pentru a proiecta un \acrfull{pcb} am folosit softwareul Fritzing. Acesta permite proiectarea schemei electrice si ulterior trasarea conexiunilor pe layoutul fizic al placii.
 
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=0.6\textwidth]{04/04_schema_electrica_hut.pdf}  
+  }
+  \caption{Ilustrare resursa disputata intre doi utilizatori}
+\end{figure}
+
 Actionarea butoanelor terminalului \acrshort{pots} se realizeaza cu ajutorul unor opto-cuploare, izoland circuitul interfonului care este proiectat pentru a functiona cu spike-uri de pana la 90V de circuitul Raspberry Pi.
 
 Detectarea unui apel este realizata prin legarea unui \acrfull{mosfet} la bornele difuzorului terminalului \acrshort{pots} si inserierea cu un amplificator operational in regim de comparator cu referinta de 0.1V. Am folosit de asemenea si un Filtru Trece Jos deoarece terminalul este sensibil la zgomote, declansand accidental notificarea.
@@ -48,17 +56,33 @@ Deoarece aveam nevoie sa scurtcircuitez un contactor pe partea terminalului \acr
 
 NodeJS este un
 
+\subsubsection {Autentificare}
+
+Pentru autentificarea si validarea credentialelor utilizatorilor, am ales metoda \acrfull{jwt}, un standard open source in industrie conform RFC 7519. In cea mai compacta forma a sa, acesta este compus din trei parti, despartite prin caracterul ".":
+
+\begin{enumerate}
+  \item Header (algoritm si tipul tokenului)
+  \item Continut (id utilizator, nume, rol)
+  \item Semnatura
+\end{enumerate}
+
+Semnatura este calculata cu ajutorul unui algoritm simetric de hashing \acrfull{hs256} si a unei chei private aplicat pe forma codata in baza 64 a continutului si metadatelor despre token (expirare, emitator, audienta, subiect). Toate cele trei informatii sunt apoi concatenate cu caracterul "." intre, constituind forma finala ce va trimisa clientului. Clientul va folosi acest token in comunicatiile ulterioare cu serverul, acesta folosindu-se de mesaj, semnatura acestuia si cheia privata pentru a determina daca a fost sau nu modificat pe parcurs.
+
+Folosirea algoritmului simetric implica faptul ca secretul este utilizat atat pentru generarea de tokenuri, cat si pentru validarea lor. In cazul aplicatiei din lucrare, aceasta nu este o problema, deoarece ambele metode ruleaza in interiorul aceluias proces, fara sa expuna aplicatia la vulnerabilitati.
+
+Un avantaj al \acrshort{jwt} este faptul ca serverul nu trebuie sa intretina starea unei tabele de sesiuni a utilizatorilor. In esenta daca un utilizator este in posesia unui token ne-expirat, aceste este considerat autentificat. Prin urmare, mai multe instante ale serverului pot valida in paralel identitatea utilizatorilor, fara nevoia de a interoga o baza de date sau o memorie cache partajata, permitand astfel scalarea pe orizontala a aplicatiei.
+
 \subsubsection {NestJS}
 
-Metadate si chestii, dependency injection si MVC la aplicatie
+Construit peste cel mai popular framwork pentru aplicatii web disponibil pentru Node.js, NestJS imbunatateste experienta dezvoltarii serviciilor folosind functii experimentale din Typescript care permit interpretarea la transpilare a decoratorilor pentru metode si clase. De asemenea urmareste un design \acrshort{mvc} si are pachete intretinute oficial pentru taskuri comune, cum ar fi conectarea la o baza de date sau proiectarea unui mecanism de autentificare si verificare a identiatii utilizatorilor.
 
 \subsubsection {Mutex}
 
-Din natura asincrona a limbajului si posibilitatea sistemului de a avea mai mult de un utilizator, trebuie luat in considerare cazul in care mai multi utilizatori incearca sa interactioneze cu sistemul in acelasi timp. Asadar, trebuie implementat un mecanism similar semaforului binar, numit mutex. Diferenta dintre acestea fiind ca in cazul mutexului, doar detinatorul original poate sa il elibereze spre a fi folosit.
+Din natura asincrona a limbajului si posibilitatea sistemului de a avea mai mult de un utilizator, trebuie luat in considerare cazul in care mai multi utilizatori incearca sa interactioneze cu sistemul in acelasi timp. Asadar, trebuie implementat un mecanism similar semaforului binar, numit mutex. Diferenta dintre acestea fiind ca in cazul mutexului, doar detinatorul original poate sa il elibereze spre a fi folosit din nou.
 
-Acest comportament este de dorit pentru a informa clientii serviciului in cazul in care requestul nu poate fi satisfacut deoarece resursa este ocupata de altcineva.
+Acest comportament este dorit pentru a informa clientii serviciului in cazul in care requestul nu poate fi satisfacut deoarece resursa este ocupata de altcineva.
 
-\begin{figure}[h!]
+\begin{figure}[H]
   \centering
   \fbox {
     \includegraphics[width=0.6\textwidth]{04/03_mutex_diagram.pdf}  
@@ -67,22 +91,29 @@ Acest comportament este de dorit pentru a informa clientii serviciului in cazul 
 \end{figure}
 
 
-\subsubsection {Validare}
+\subsubsection {Validarea entitatilor}
 
-Foloseste functii din Typescript si NestJS pentru a adauga si citi metadate prin intermediul decoratorilor de metode.
+Foloseste functii din Typescript si NestJS pentru a adauga si citi metadate prin intermediul decoratorilor de metode. \acrfull{dto} este reprezentarea unui model din baza de date, dar encodat favorbail pentru interpretarea usoara a clientilor. Majoritar, acesta va contine mai putine campuri decat exista in baza de date (reprezentarea unui utilizator nu va avea campul pentru parola).
 
-\subsubsection {Autentificare}
+Campurile unui \acrfull{dto} sunt adnotate cu tipul asteptat la runtime, si printr-un interceptor de nest care ruleaza atunci cand este invocata metoda unui controller \acrshort{rest}, obiectul primit ca parametru este verificat contra specificatiilor din metadate. In cazul in care validarea esueaza, clientului ii este intors status 400 (Bad Request) indicand o eroare de formatare a requestului.
 
-La fel ca mai sus
+Mutand responsabilitatea verificarii entitatilor in cadrul serverului, se mitigheaza si lipsa unei scheme la nivelul bazei de date, inerente solutiilor NoSQL. Prin urmare se reduce riscul unor inconsistente in datele stocate.
 
 \subsubsection {Roluri}
 
-Din nou decorator
+Urmarind "reteta" de dezvoltare observata in validarea entitatilor, am creat un mecanism de adaugare a metadatelor pe rutele controllerelor despre ce roluri de user au acces sa le cheme.
 
+Partea de verificare a unui user in timpul unui request, revine asa-numitelor "Guard-uri" care implementeaza o interfata comuna. In cazul vederilor pentru aplicatia de admin dormin sa restrictionam afisarea sa userilor normali, asadar inlantuim "Guard-urile" ce garanteaza autentificarea unui utilizator si rolul de administrator. In cazul in care un user nu este administrator, acestuia i se intoarce un cod de status 403 (Forbidden) - serverul a autentificat utilizatorul, dar acesta nu are suficiente permisiuni pentru a accesa resursa
 
 \subsection {Android}
 
-Android este o platforma mobile care s-a maturizat pe parcusul a 12 versiuni majore si principalul competitor de piata al iOS.
+Android este o platforma mobile care s-a maturizat pe parcusul a 12 versiuni majore si principalul competitor de piata al iOS. Im dezvoltarea acestei aplicatii am folosit o abordare similara cu cea a serverului, fiind organizata intr-un pattern de design \acrshort{mvc}. De asemenea am folosit un framework pentru injectarea automata a dependintelelor.
+
+\subsubsection {Dependency Injection}
+
+Pentru a gestiona mai usor modulele aplicatiei si diferitele surse de date, am ales sa folosesc Dagger2, un framework bine cunoscut de Java. El vine cu extensii pentru Android ce permit controlul granular asupra instantierii modulelor necesare in functie de ciclul de viata al aplicatiei sau al unui Activity. Astfel putem defini module globale, precum cel care cheama api-ul web, instantiat o singura data pe durata aplicatiei, sau module locale, precum cel de SharedPreferences care se realoca de fiecare data cand se intra in ecranul principal.
+
+Pe langa organizarea proiectului in module logice in functie de functionalitati, Dagger ajuta si la managementul memoriei intr-un limbaj de programare cu Garbage Collector, precum Java, evitand alocari nenecesare sau frecvente.
 
 
 \section {Implementarea sistemului}
