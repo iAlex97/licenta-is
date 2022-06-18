@@ -11,12 +11,20 @@ Pentru a proiecta un \acrfull{pcb} am folosit softwareul Fritzing. Acesta permit
   \fbox {
     \includegraphics[width=0.6\textwidth]{04/04_schema_electrica_hut.pdf}  
   }
-  \caption{Ilustrare resursa disputata intre doi utilizatori}
+  \caption{Schema electrica HUT Raspberry PI}
 \end{figure}
 
 Actionarea butoanelor terminalului \acrshort{pots} se realizeaza cu ajutorul unor opto-cuploare, izoland circuitul interfonului care este proiectat pentru a functiona cu spike-uri de pana la 90V de circuitul Raspberry Pi.
 
 Detectarea unui apel este realizata prin legarea unui \acrfull{mosfet} la bornele difuzorului terminalului \acrshort{pots} si inserierea cu un amplificator operational in regim de comparator cu referinta de 0.1V. Am folosit de asemenea si un Filtru Trece Jos deoarece terminalul este sensibil la zgomote, declansand accidental notificarea.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=0.6\textwidth]{04/05_schema_pcb_hut.pdf}  
+  }
+  \caption{Schema electrica HUT Raspberry PI}
+\end{figure}
 
 \subsubsection {Optocuploare homemade}
 
@@ -105,6 +113,12 @@ Urmarind "reteta" de dezvoltare observata in validarea entitatilor, am creat un 
 
 Partea de verificare a unui user in timpul unui request, revine asa-numitelor "Guard-uri" care implementeaza o interfata comuna. In cazul vederilor pentru aplicatia de admin dormin sa restrictionam afisarea sa userilor normali, asadar inlantuim "Guard-urile" ce garanteaza autentificarea unui utilizator si rolul de administrator. In cazul in care un user nu este administrator, acestuia i se intoarce un cod de status 403 (Forbidden) - serverul a autentificat utilizatorul, dar acesta nu are suficiente permisiuni pentru a accesa resursa
 
+\subsubsection {Documentatie}
+
+Intr-un proiect de lunga durata, documentatia joaca un rol esential in usurinta de mentenanta si dezvoltare a codului. Despartirea logica a componentelor aplicatiei cat si explicarea eventualelor cai logice si raspunsuri posibile ajuta atat clientii externi consumatori ai \acrshort{api}-ului cat si dezvoltatorii noi care incearca sa introduca primele modificari.
+
+Astfel, am ales Swagger pentru a parcurge proiectul si genera pagini de documentatie pentru toate rutele serviciului \acrshort{rest}, impreuna cu comentarii si potentialele status code-uri la care trebuie sa se astepte clientii. De asemenea, Swagger include si un client \acrshort{rest} in pagina, impreuna cu schema obiectelor si tipurile de date asteptate nu lasa loc de interpretat in comportamentul serverului.
+
 \subsection {Android}
 
 Android este o platforma mobile care s-a maturizat pe parcusul a 12 versiuni majore si principalul competitor de piata al iOS. Im dezvoltarea acestei aplicatii am folosit o abordare similara cu cea a serverului, fiind organizata intr-un pattern de design \acrshort{mvc}. De asemenea am folosit un framework pentru injectarea automata a dependintelelor.
@@ -118,5 +132,26 @@ Pe langa organizarea proiectului in module logice in functie de functionalitati,
 
 \section {Implementarea sistemului}
 
+\subsubsection {Baza de date}
+
+Schema documentelor mongo aici
 
 \section {Testarea sistemului}
+
+\subsection {Server}
+
+Chiar daca NestJS ofera suport pentru scrierea de teste unitare prin adaugarea de fisere $.spec.ts$, cea mai mare provocare a fost mockuirea modulului care comunica cu pinii \acrshort{gpio} ai Raspberry Pi. Wrapperul de JavaScript comunica prin intermediul \acrfull{napi} cu o librarie statica ce realizeaza serializarea si deserializarea datelor dintre Node.js/V8 VM si C/C++. Aceasta librarie se linkeaza la randul ei cu $bcm2835$ pentru a obtine acces la pinii \acrshort{gpio} si alte functii din sistemul de Intrare/Iesire al cipului Broadcom 2835.
+
+Astfel suntem prezentati cu o problema, libraria \acrshort{napi} poate fi compilata pe alte arhitecturi, dar cu siguranta va genera o exceptie la rulare cand va incerca sa execute instructiuni invalide. Este nevoie de o logica de control care sa permita rularea si returnarea unor date prestabilite, cand se detecteaza rularea pe o arhitectura invalida, cum ar fi in cazul testelor rulate in mod automat prin intermediul pipelineului de integrare continua.
+
+\subsubsection {Teste unitare}
+
+Urmatorul pas a fost elaborarea testelor unitare. Am ales sa creez un fisier $.spec.ts$ pentru fiecare controller al API-ului acoperind astfel intreaga functionalitate a aplicatiei. Pentru controllerului responsabil deschiderii interfonului am mockuit serviciile Firebase si baza de date, testand mecanismul de deschidere/inchidere a interfonului in cazul in care aceeasi resursa este accesata de mai multi utilizatori concomitent.
+
+\subsubsection {Teste end-to-end}
+
+Pentru a ne asigura ca serviciul \acrshort{rest} raspunde corect se impune necesitatea testelor cap coada, unde se instantiaza aplicatia intr-o maniera similara productiei, iar cu ajutorul unui client rest se trimit cereri prestabilite si se asteapta dupa raspunsurile lor. Astfel parcurgem toata logica serverului, cap coada si ne vom asigura de un comportament predictibil.
+
+\subsection {Aplicatie mobila}
+
+Considerand simplitatea aplicatiei mobile, am decis sa sar peste testarea sa. Pentru a ma asigura de un minim de calitate am incarcat aplicatia in suita online de testare unde este supusa inputurilor aleatorii in incercarea de a descoperi probleme.
