@@ -150,8 +150,13 @@ Urmatorul pas a fost elaborarea testelor unitare. Am ales sa creez un fisier $.s
 
 \subsubsection {Teste end-to-end}
 
-Pentru a ne asigura ca serviciul \acrshort{rest} raspunde corect se impune necesitatea testelor cap coada, unde se instantiaza aplicatia intr-o maniera similara productiei, iar cu ajutorul unui client rest se trimit cereri prestabilite si se asteapta dupa raspunsurile lor. Astfel parcurgem toata logica serverului, cap coada si ne vom asigura de un comportament predictibil.
+Pentru a ne asigura ca serviciul \acrshort{rest} raspunde corect se impune necesitatea testelor cap coada, unde se instantiaza aplicatia intr-o maniera similara productiei, iar cu ajutorul unui client rest se trimit cereri prestabilite si se asteapta dupa raspunsurile lor. Astfel parcurgem toata logica serverului, cap-coada si ne vom asigura de un comportament predictibil.
 
 \subsection {Aplicatie mobila}
 
-Considerand simplitatea aplicatiei mobile, am decis sa sar peste testarea sa. Pentru a ma asigura de un minim de calitate am incarcat aplicatia in suita online de testare unde este supusa inputurilor aleatorii in incercarea de a descoperi probleme.
+Din cauza fragmentarii foarte mari a versiunilor si configuratiilor posibile pentru toate dispozitivele Android pe care ar putea rula aplicatia, am decis sa folosesc "Firebase Test Lab", un serviciu de la Google care ofera posibilitatea rularii unui test automat sau scriptat pe o gama larga de dispozitive. 
+Asiguram astfel un minim control al calitatii prin descoperirea timpurie a exceptiilor netratate.
+
+Tipul de test ales este cel "Robo", care va analizeaza inteligent interfata vizuala a aplicatiei, dupa care va genera evenimente de input ca si cum ar fi un utilizator. Pentru a rula un testa, trebuie sa incarcam un APK sau un AAB, alegem dispozitivele pe care dorim sa testam si eventualii pasi aditionali pe care ii dorim acoperiti de Robo. Dupa introducerea id-ului pentru campurile de username si parola impreuna cu valorile asociate unui cont de test, a reusit sa se autentifice si sa faca un stress-test al aplicatiei.
+
+Planul "Spark" de la Firebase ne da acces la 5 rulari pe dispozitive fizice pe zi si 10 dispozitive virtuale zilnic, deci testele au fost executate cu aceste limitari. De asemenea "Test Lab" poate fi chemat din interiorul pipelineul de integrare continua pentru a rula teste automat dupa terminarea unui build pe un anumit branch.
