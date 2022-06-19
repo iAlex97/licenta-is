@@ -1,17 +1,30 @@
 \section {Arhitectura sistemului}
 
-Sistemul prezentat presupune atat o partare hardware, cat si una software. Hardwareul realizeaza adaptarea dintre terminalul analog POTS si placa digitala de dezvoltare Raspberry Pi, iar ca software am folosit NodeJS pentru server si Android pentru a implementa un client al serverului
+Sistemul prezentat presupune atat o partare hardware, cat si una software. Hardwareul realizeaza adaptarea dintre terminalul analog POTS si placa digitala de dezvoltare Raspberry Pi, iar ca software am folosit NodeJS pentru server si Android pentru a implementa un client al serverului.
 
-\subsection {Raspberry Pi HUT}
+\subsection {Raspberry Pi HAT}
 
-Pentru a proiecta un \acrfull{pcb} am folosit softwareul Fritzing. Acesta permite proiectarea schemei electrice si ulterior trasarea conexiunilor pe layoutul fizic al placii.
+Dupa ce etapa de prototipare pe breadboard a fost finalizata, am transcris schema electrica a circuitului cu ajutorul softwareul Fritzing. Proiectarea unui 
+\acrfull{pcb} reprezinta penultimul pas inainte de etapa de productie in masa. Printre parametrii improtanti in deciderea designului unui circuit printat se numara:
+
+\begin{itemize}
+  \item Tehnologia de montare a componentelor pe \acrshort{pcb} (\acrfull{tht} sau \acrfull{smd})
+  \item Numarul de straturi de circuit (alegeri comune sunt 2, 4, insa dispozitive complexe precum placile video pot folosi pana la 12 straturi)
+  \item Grosimea si culoarea placii de fibra de sticla
+  \item Latimea unui traseu pe placa
+  \item Distanta minima intre trasee
+  \item Diametrul via-urilor (gauri verticale in placa folosite pentru a conecta straturile)
+  \item Materialul folosit pentru lipire si meterialul folosit pentru pinii de interfatare
+\end{itemize}
+
+Pentru a proiecta un \acrfull{hat} compatibil cu Raspberry Pi, am folosit softwareul Fritzing. Acesta permite proiectarea schemei electrice si ulterior trasarea conexiunilor pe layoutul fizic al placii. Considerand complexitatea redusa a proiectului, am ales sa folosesc doua o placa cu doua straturi, impreuna cu urmatorii parametri pe care i-am introdus in Fritzing ca si constrangeri de design:
 
 \begin{figure}[h!]
   \centering
   \fbox {
-    \includegraphics[width=0.6\textwidth]{04/04_schema_electrica_hut.pdf}  
+    \includegraphics[width=\singlefigure]{04/04_schema_electrica_hut.pdf}  
   }
-  \caption{Schema electrica HUT Raspberry PI}
+  \caption{Schema electrica HAT Raspberry PI}
 \end{figure}
 
 Actionarea butoanelor terminalului \acrshort{pots} se realizeaza cu ajutorul unor opto-cuploare, izoland circuitul interfonului care este proiectat pentru a functiona cu spike-uri de pana la 90V de circuitul Raspberry Pi.
@@ -21,22 +34,23 @@ Detectarea unui apel este realizata prin legarea unui \acrfull{mosfet} la bornel
 \begin{figure}[h!]
   \centering
   \fbox {
-    \includegraphics[width=0.6\textwidth]{04/05_schema_pcb_hut.pdf}  
+    \includegraphics[width=\singlefigure]{04/05_schema_pcb_hut.pdf}  
   }
-  \caption{Schema electrica HUT Raspberry PI}
+  \caption{Design \acrshort{pcb} HAT \\(galben - stratul de sus, portocaliu - stratul de jos)}
 \end{figure}
 
 \subsubsection {Optocuploare homemade}
 
 Datorita crizei globale de semiconductori, o placuta breakout care care include doua optocuploare costa aproximativ 50 RON. Considerand simplitatea functionarii acestui circuit, am decis sa construiesc propria solutie, folosind componetele de baza: un rezistor pentru limitat curentul, un LED si un fotorezistor. Platforma Raspberry Pi furnizeaza pinilor sai \acrshort{gpio} 3.3V si un curent maxim de 16mA, iar un LED rosu are o cadere de tensiune de 2.4V:
 
-\begin{center}
-\begin{gather*}
-I_{GPIO} =10\ mA=10^{-2} A\\
-V_{R} =V_{GPIO} -V_{LED} =3.3V-2.4V=0.9V\\
-I_{GPIO} =\frac{V_{R}}{R} \ sau\ R=\frac{V_{R}}{I_{GPIO}} =\frac{0.9V}{10^{-2}A} =90\Omega
-\end{gather*}
-\end{center}
+\begin{equation}
+\label{eq:test}
+\begin{split}
+I_{GPIO} & =10\ mA=10^{-2} A\\
+V_{R} & =V_{GPIO} -V_{LED} =3.3V-2.4V=0.9V\\
+I_{GPIO} & =\frac{V_{R}}{R} \ sau\ R=\frac{V_{R}}{I_{GPIO}} =\frac{0.9V}{10^{-2}A} =90\Omega
+\end{split}
+\end{equation}
 
 Am lipit rezistorul de 90$\Omega$ la anodul ledului si am incastrat LED-ul impreuna cu fotorezistorul intr-o incinta fara lumina.
 
@@ -51,6 +65,23 @@ Am lipit rezistorul de 90$\Omega$ la anodul ledului si am incastrat LED-ul impre
 
 
 Deoarece aveam nevoie sa scurtcircuitez un contactor pe partea terminalului \acrshort{pots} am omis rezistenta legata fotorezistorului. Atunci cand ledul este aprins, rezistenta fotorezistorului scade, comportandu-se aproape ca un conductor ideal, atingand lamelele contactorului corespunzator receptorului.
+
+Dupa ce toate traseele au fost plasate, ultimul pas este umplerea spatiului ramas pe fiecare strat cu un plan legat la GND pentru a reduce emisiile electromagnetice. Inainte de a trimite fisierul Gerber spre a fi produs, am folosit constrangerile definite initial pentru a valida proiectul, asigurandu-ne ca acesta poate fi produs in realitate.
+
+\begin{table}[ht!]
+\begin{tabular}{llllll}
+\hline
+Nr. &  &  & Latime & Diametru & Material \\ 
+straturi & Tehnologie & Grosime & traseu & via & finisaj \\
+\hline
+\hline
+2 & \acrshort{tht} & 1.6mm & 1mm & 0.5mm & LeadFree HASL-RoHS\\
+\hline
+\end{tabular}
+\centering
+\caption{Parametri alesi pentru fabricarea \acrshort{pcb}}
+\label{tab:faults}
+\end{table}
 
 \subsection {Webserver NodeJS}
 
@@ -85,7 +116,7 @@ Acest comportament este dorit pentru a informa clientii serviciului in cazul in 
 \begin{figure}[H]
   \centering
   \fbox {
-    \includegraphics[width=0.6\textwidth]{04/03_mutex_diagram.pdf}  
+    \includegraphics[width=\singlefigure]{04/03_mutex_diagram.pdf}  
   }
   \caption{Ilustrare resursa disputata intre doi utilizatori}
 \end{figure}
@@ -124,17 +155,21 @@ Pe langa organizarea proiectului in module logice in functie de functionalitati,
 
 \section {Implementarea sistemului}
 
+\subsubsection {Server}
+
 \subsubsection {Baza de date}
 
 Schema documentelor mongo aici
+
+\subsection {Aplicatie mobila}
 
 \section {Testarea sistemului}
 
 \subsection {Server}
 
-Chiar daca NestJS ofera suport pentru scrierea de teste unitare prin adaugarea de fisere $.spec.ts$, cea mai mare provocare a fost mockuirea modulului care comunica cu pinii \acrshort{gpio} ai Raspberry Pi. Wrapperul de JavaScript comunica prin intermediul \acrfull{napi} cu o librarie statica ce realizeaza serializarea si deserializarea datelor dintre Node.js/V8 VM si C/C++. Aceasta librarie se linkeaza la randul ei cu $bcm2835$ pentru a obtine acces la pinii \acrshort{gpio} si alte functii din sistemul de Intrare/Iesire al cipului Broadcom 2835.
+Chiar daca NestJS ofera suport pentru scrierea de teste unitare prin adaugarea de fisere $.spec.ts$, cea mai mare provocare a fost mockuirea modulului care comunica cu pinii \acrshort{gpio} ai Raspberry Pi. Wrapperul de JavaScript comunica prin intermediul \acrfull{napi} cu o librarie statica ce realizeaza serializarea si deserializarea datelor dintre Node.js/V8 VM si C/C++. Aceasta librarie se linkeaza la randul ei cu $bcm2835$ pentru a obtine acces la pinii \acrshort{gpio} si alte functii din sistemul de \acrfull{io} al cipului Broadcom 2835.
 
-Astfel suntem prezentati cu o problema, libraria \acrshort{napi} poate fi compilata pe alte arhitecturi, dar cu siguranta va genera o exceptie la rulare cand va incerca sa execute instructiuni invalide. Este nevoie de o logica de control care sa permita rularea si returnarea unor date prestabilite, cand se detecteaza rularea pe o arhitectura invalida, cum ar fi in cazul testelor rulate in mod automat prin intermediul pipelineului de integrare continua.
+Astfel suntem prezentati cu o problema, libraria \acrshort{napi} poate fi compilata pe alte arhitecturi, dar cu siguranta va genera o exceptie la rulare cand dependinta sa, $bcm2835$, va incerca sa execute instructiuni invalide. Este nevoie de o logica de control care sa permita rularea si returnarea unor date prestabilite, cand se detecteaza rularea pe o arhitectura invalida, cum ar fi in cazul testelor rulate in mod automat prin intermediul pipelineului de integrare continua.
 
 \subsubsection {Teste unitare}
 
