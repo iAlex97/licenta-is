@@ -40,23 +40,15 @@ I_{GPIO} =\frac{V_{R}}{R} \ sau\ R=\frac{V_{R}}{I_{GPIO}} =\frac{0.9V}{10^{-2}A}
 
 Am lipit rezistorul de 90$\Omega$ la anodul ledului si am incastrat LED-ul impreuna cu fotorezistorul intr-o incinta fara lumina.
 
-\begin{figure}[h!]
-\centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.8\linewidth]{04/01_optocoupler_scheme.jpg}
-  \caption{Schema optocuplor \cite{OptocouplerCircuitsToday}}
-  \label{fig:sub1}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=.8\linewidth]{04/02_optocoupler_assembly.png}
-  \caption{Ansanblu realizat manual}
-  \label{fig:sub2}
-\end{subfigure}
-\caption{Schema electrica optocuplor (a) si rezultat ansablu (b)}
-\label{fig:test}
+\begin{figure}[!ht]
+\begin{center}
+  \subfloat[Schema optocuplor \cite{OptocouplerCircuitsToday}]{\label{fig:optoa}\includegraphics[width=\doublefigure]{04/01_optocoupler_scheme.jpg}}
+  \subfloat[Componenta realizata manual]{\label{fig:optob}\includegraphics[width=\doublefigure]{04/02_optocoupler_assembly.png}}
+  \caption{Schema electrica optocuplor (a) si rezultat ansablu (b)}
+  \label{fig:opto}
+\end{center}
 \end{figure}
+
 
 Deoarece aveam nevoie sa scurtcircuitez un contactor pe partea terminalului \acrshort{pots} am omis rezistenta legata fotorezistorului. Atunci cand ledul este aprins, rezistenta fotorezistorului scade, comportandu-se aproape ca un conductor ideal, atingand lamelele contactorului corespunzator receptorului.
 
@@ -157,6 +149,9 @@ Pentru a ne asigura ca serviciul \acrshort{rest} raspunde corect se impune neces
 Din cauza fragmentarii foarte mari a versiunilor si configuratiilor posibile pentru toate dispozitivele Android pe care ar putea rula aplicatia, am decis sa folosesc "Firebase Test Lab", un serviciu de la Google care ofera posibilitatea rularii unui test automat sau scriptat pe o gama larga de dispozitive. 
 Asiguram astfel un minim control al calitatii prin descoperirea timpurie a exceptiilor netratate.
 
-Tipul de test ales este cel "Robo", care va analizeaza inteligent interfata vizuala a aplicatiei, dupa care va genera evenimente de input ca si cum ar fi un utilizator. Pentru a rula un testa, trebuie sa incarcam un APK sau un AAB, alegem dispozitivele pe care dorim sa testam si eventualii pasi aditionali pe care ii dorim acoperiti de Robo. Dupa introducerea id-ului pentru campurile de username si parola impreuna cu valorile asociate unui cont de test, a reusit sa se autentifice si sa faca un stress-test al aplicatiei.
+Tipul de test ales este cel "Robo", care va analizeaza inteligent interfata vizuala a aplicatiei, dupa care va genera evenimente de input ca si cum ar fi un utilizator. Planul "Spark" de la Firebase ne da acces la 5 rulari pe dispozitive fizice pe zi si 10 dispozitive virtuale, deci testele au fost executate in limita acestor constrangeri. 
 
-Planul "Spark" de la Firebase ne da acces la 5 rulari pe dispozitive fizice pe zi si 10 dispozitive virtuale zilnic, deci testele au fost executate cu aceste limitari. De asemenea "Test Lab" poate fi chemat din interiorul pipelineul de integrare continua pentru a rula teste automat dupa terminarea unui build pe un anumit branch.
+Pentru a rula un testa, trebuie sa incarcam un APK sau un AAB, alegem dispozitivele pe care dorim sa testam si eventualii pasi aditionali pe care ii dorim acoperiti de Robo. Dupa introducerea id-ului pentru campurile de username si parola impreuna cu valorile asociate unui cont de test, a reusit sa se autentifice si sa faca un stress-test al aplicatiei.
+
+
+De asemenea "Test Lab" poate fi chemat din interiorul pipelineul de integrare continua pentru a rula teste automat dupa terminarea unui build pe un anumit branch, verificand flow-uri exesitente din aplicatie impotriva potentialelor regresii aparute.

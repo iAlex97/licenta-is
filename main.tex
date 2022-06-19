@@ -1,55 +1,30 @@
-\documentclass[12pt,romanian]{report}
-\usepackage[utf8]{inputenc}
-\usepackage[a4paper,bindingoffset=0.2in,%
-            left=0.4in,right=1in,top=1in,bottom=1in,%
-            footskip=.25in]{geometry}
-\usepackage[romanian]{babel}
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{hyperref}
-\usepackage{listings}
-\usepackage{color}
-\usepackage{booktabs}
-\usepackage{biblatex}
+\documentclass[a4paper,12pt]{scrreprt}                       % default is A4 paper style and 11pt font size
 
-% \usepackage{fancyhdr}
 
-\usepackage[acronym]{glossaries}
+%%%%%%%%%%%% version history %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%27.05.2021: updates about layout/plagiarism from Monica Patrascu, Bogdan Dumitrescu
+%25.04.2020:  modified the lst definitions (monospaced, gray); localized versions (romanian) for the \autoref command; updated the romanian.lbx file
+%26.03.2017:    corrections for the latex source-code: diacritics issues; corrected the glossaries and added listings packages; added fontspec (only works with xelatex/lualatex !!!)
+%2014:          put in latex version + some small additions - Florin Stoican
+%2013:          content from Dan Stefanoiu
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\usepackage{helvet}
-\renewcommand{\familydefault}{\sfdefault}
 
-% \definecolor{dkgreen}{rgb}{0,0.6,0}
-% \definecolor{gray}{rgb}{0.5,0.5,0.5}
-% \definecolor{mauve}{rgb}{0.58,0,0.82}
+%%%%%%%%%%%% macros for various paths %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def \cls {./cls}                                            % path to common latex files (change for your own relative/absolute path)
+\def \pics {./img}                                          % path to pics files (change for your own relative/absolute path)
+\def \chapters {./tex}                                  % path to chapter files (change for your own relative/absolute path)
+\def \code {./code}                                          % path to source code files (change for your own relative/absolute path)
 
-% \lstset{frame=tb,
-%   language=Matlab,
-%   aboveskip=3mm,
-%   belowskip=3mm,
-%   showstringspaces=false,
-%   columns=flexible,
-%   basicstyle={\small\ttfamily},
-%   numbers=none,
-%   numberstyle=\tiny\color{gray},
-%   keywordstyle=\color{blue},
-%   commentstyle=\color{dkgreen},
-%   stringstyle=\color{mauve},
-%   breaklines=true,
-%   breakatwhitespace=true,
-%   tabsize=3
-% }
+% you don't have to use them but it's nicer this way
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\addbibresource{references.bib}
+% language={english/romanian} selects between the languages used in the manusript (changes, e.g., the name of the chapter)
+% type={bachelor/master/phd} selects between the type of manusript (changes, e.g., the titlepage make-up)
+\usepackage[language=romanian,type=bachelor]{\cls/standard} % introduces useful packages and commands(CHANGE ONLY IF YOU KNOW WHAT YOU'RE DOING)
+\addbibresource{references.bib}                             % bib resource (using biblatex package, for complex stuff use the biber backend instead of bibtex
+% \include{\cls/gls}                                          % put here all your glossary terms; only the ones actually used will appear in the glossary list of the manuscript
 
-\graphicspath{ {./img/} }
-
-% \pagestyle{fancy}
-
-\makeglossaries
 
 \newacronym{ip}{IP}{Internet Protocol}
 \newacronym{fp}{FP}{Functional Programming}
@@ -84,21 +59,34 @@
 \newacronym{hs256}{HS256}{HMAC SHA-256}
 
 
-% title and other info
-\title{PROIECT DE DIPLOMA\\Sistem IoT pentru controlul\\accesului in clădire}
-\date{2021\\ Noiembrie}
-\author{Alexandru Cristian IONESCU}
-
-
 \begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%% frontmatter %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{roman}                                       % default numbering for the frontmatter is roman
+
+\title{Sistem IoT pentru controlul\\accesului \^{i}n clădire}
+\author{Alexandru Cristian IONESCU}
+\advisor{Mihnea Alexandru MOISESCU}
 
 \maketitle
 
-% \chapter*{Abstract}
-% Trebuie sa avem asa ceva?
+% show table of contents, figures, tables and algorithms
 
-\tableofcontents
+\tableofcontents 
+\printglossaries                                       % \printglossaries works only if the makeindex has the correct arguments
+\listoffigures 
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+\listofalgorithmes
+\addcontentsline{toc}{chapter}{\listalgorithmcfname}
 
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%% mainmatter %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{arabic}                                      % default numbering for the mainmatter is arabic
+
+% here is the text of you manuscript; you can put it directly here but it is better to include files (the main file will be more compact)
 \chapter{Introducere}
 \input{tex/01_introducere}
 
@@ -117,14 +105,15 @@
 \chapter{Concluzii}
 \input{tex/06_concluzii}
 
-% \chapter{Bill of Materials}
-% \input{tex/09_bill_of_materials}
+%%%%%%%%%%%%%%%%%%%%%% back matter %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\appendixpage
+\addappheadtotoc
+% \begin{appendices}                                          % from here onwards are the appendices
+% \input{\chapters/surse}
+% \end{appendices}
 
-\clearpage
+\cleardoublepage
 
-\printglossary[type=\acronymtype,title={Acronime}]
-\printglossary
-
-\printbibliography[heading=bibnumbered]
-
+\printbibliography[heading=bibintoc]
 \end{document}

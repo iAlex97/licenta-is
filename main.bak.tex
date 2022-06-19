@@ -1,0 +1,128 @@
+\documentclass[12pt,romanian]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,bindingoffset=0.5cm,top=2cm,bottom=2cm,right=2cm,left=3cm]{geometry}
+\usepackage[romanian]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{booktabs}
+\usepackage{biblatex}
+
+% \usepackage{fancyhdr}
+
+\usepackage[acronym]{glossaries}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+% \definecolor{dkgreen}{rgb}{0,0.6,0}
+% \definecolor{gray}{rgb}{0.5,0.5,0.5}
+% \definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% \lstset{frame=tb,
+%   language=Matlab,
+%   aboveskip=3mm,
+%   belowskip=3mm,
+%   showstringspaces=false,
+%   columns=flexible,
+%   basicstyle={\small\ttfamily},
+%   numbers=none,
+%   numberstyle=\tiny\color{gray},
+%   keywordstyle=\color{blue},
+%   commentstyle=\color{dkgreen},
+%   stringstyle=\color{mauve},
+%   breaklines=true,
+%   breakatwhitespace=true,
+%   tabsize=3
+% }
+
+\addbibresource{references.bib}
+
+\graphicspath{ {./img/} }
+
+% \pagestyle{fancy}
+
+\makeglossaries
+
+\newacronym{ip}{IP}{Internet Protocol}
+\newacronym{fp}{FP}{Functional Programming}
+\newacronym{frp}{FRP}{Functional Reactive Programming}
+\newacronym{cad}{CAD}{Computer Assisted Design}
+\newacronym{dto}{DTO}{Data Transfer Object}
+\newacronym{oop}{OOP}{Object Oriented Programming}
+\newacronym{iot}{IoT}{Internet of Things}
+\newacronym{ssl}{SSL}{Secure Sockets Layer}
+\newacronym{aws}{AWS}{Amazon Web Services}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{adc}{ADC}{Analog to Digital Convertor}
+\newacronym{dac}{DAC}{Digital to Analog Convertor}
+\newacronym{gsm}{GSM}{Global System for Mobile Communications}
+\newacronym{sim}{SIM}{Subscriber Identity Module}
+\newacronym{pcb}{PCB}{Printed Circuit Board}
+\newacronym{osi}{OSI}{Open Systems Interconnection}
+\newacronym{mvc}{MVC}{Model View Controller}
+\newacronym{jwt}{JWT}{JSON Web Token}
+\newacronym{napi}{N-API}{Node-API}
+\newacronym{dtmf}{DTMF}{Dual-Tone Multi-Frequency}
+\newacronym{json}{JSON}{JavaScript Object Notation}
+\newacronym{gpio}{GPIO}{General-Purpose Input/Output}
+\newacronym{voip}{VoIP}{Voice Over IP}
+\newacronym{pots}{POTS}{Plain Old Telephone Service}
+\newacronym{rest}{REST}{Representational State Transfer}
+\newacronym{rfid}{RFID}{Radio-Frequency Identification}
+\newacronym{mosfet}{MOSFET}{Metal Oxide Semiconductor Field Effect Transistor}
+\newacronym{arpanet}{ARPANet}{Advanced Research Projects Agency Network}
+\newacronym{hmac}{HMAC}{Hash-Based Message Authentication Codes}
+\newacronym{sha256}{SHA-256}{Secure Hash Algorithm 256 biti}
+\newacronym{hs256}{HS256}{HMAC SHA-256}
+
+
+% title and other info
+\title{PROIECT DE DIPLOMA\\Sistem IoT pentru controlul\\accesului in clădire}
+\date{2021\\ Noiembrie}
+\author{Alexandru Cristian IONESCU}
+
+
+\begin{document}
+
+\maketitle
+
+% \chapter*{Abstract}
+% Trebuie sa avem asa ceva?
+
+\tableofcontents
+
+\chapter{Introducere}
+\input{tex/01_introducere}
+
+\chapter{Descrierea problemei abordate}
+\input{tex/02_problema_abordata}
+
+\chapter{Stadiul actual in domeniu si selectarea soluției tehnice}
+\input{tex/03_stadiul_actual}
+
+\chapter{Considerente legate de implementarea soluției tehnice}
+\input{tex/04_considerente_implementare}
+
+\chapter{Studiu de caz}
+\input{tex/05_studiu_de_caz}
+
+\chapter{Concluzii}
+\input{tex/06_concluzii}
+
+% \chapter{Bill of Materials}
+% \input{tex/09_bill_of_materials}
+
+\clearpage
+
+\printglossary[type=\acronymtype,title={Acronime}]
+\printglossary
+
+\printbibliography[heading=bibnumbered]
+
+\end{document}
