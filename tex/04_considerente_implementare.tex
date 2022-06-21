@@ -80,8 +80,17 @@ straturi & Tehnologie & Grosime & traseu & via & finisaj \\
 \end{tabular}
 \centering
 \caption{Parametri alesi pentru fabricarea \acrshort{pcb}}
-\label{tab:faults}
+\label{tab:params}
 \end{table}
+
+\begin{figure}[!ht]
+\begin{center}
+  \subfloat[Vedere din fata \acrshort{pcb}]{\label{fig:hata}\includegraphics[width=\doublefigure]{04/06_pcb_front.png}}
+  \subfloat[Vedere din spate \acrshort{pcb}]{\label{fig:hatb}\includegraphics[width=\doublefigure]{04/06_pcb_back.png}}
+  \caption{Randare placuta inainte de comandat}
+  \label{fig:hat}
+\end{center}
+\end{figure}
 
 \subsection {Webserver NodeJS}
 
@@ -155,9 +164,11 @@ Pe langa organizarea proiectului in module logice in functie de functionalitati,
 
 \section {Implementarea sistemului}
 
-\subsubsection {Server}
+\subsection {Server}
 
-\subsubsection {Baza de date}
+Chiar daca autentificarea prin interfata grafica de administrator beneficiaza de acelasi standard de securitate ca si ceilalti clienti, am ales sa o expun pe un port diferit de cel al \acrshort{api}-ul, permitand flexibilitate maxima utilizatorului final in alegerea expunerii serviciilor. Personal, am expus serviciul de API pe un port rutat public si interfata pe un port privat, blocat din firewall. In esenta, orice utilizator normal poate interactiona cu sistemul atata timp cat este autentificat, insa interfata de administrare este disponibila doar din interiorul retelei din acasa.
+
+\subsection {Baza de date}
 
 Schema documentelor mongo aici
 
@@ -186,7 +197,21 @@ Asiguram astfel un minim control al calitatii prin descoperirea timpurie a excep
 
 Tipul de test ales este cel "Robo", care va analizeaza inteligent interfata vizuala a aplicatiei, dupa care va genera evenimente de input ca si cum ar fi un utilizator. Planul "Spark" de la Firebase ne da acces la 5 rulari pe dispozitive fizice pe zi si 10 dispozitive virtuale, deci testele au fost executate in limita acestor constrangeri. 
 
-Pentru a rula un testa, trebuie sa incarcam un APK sau un AAB, alegem dispozitivele pe care dorim sa testam si eventualii pasi aditionali pe care ii dorim acoperiti de Robo. Dupa introducerea id-ului pentru campurile de username si parola impreuna cu valorile asociate unui cont de test, a reusit sa se autentifice si sa faca un stress-test al aplicatiei.
+Pentru a rula un testa, trebuie sa incarcam un APK sau un AAB, alegem dispozitivele pe care dorim sa testam si eventualii pasi aditionali pe care ii dorim acoperiti de Robo. Dupa introducerea id-ului pentru campurile de username si parola impreuna cu valorile asociate unui cont de test, a reusit sa se autentifice si sa faca un stress-test al aplicatiei. Urmatoarele dispozitive de test au fost alese:
+
+\begin{itemize}
+  \item SM-F926U1, API Level 30 - telefon pliabil, care prezinta o dimensiune non-standard si provocari unice in ceea ce priveste adaptearea intefetelor pentru o experienta cat mai placuta
+  \item Nexus 5, API Level 23 - versiune mai veche, dar foarte populara de Android, rezolutie standard FullHD, acest test se asigura ca aplicatia este compatibila cu versiuni anterioare ale sistemului de operare
+  \item SM-T720, API Level 28 - tableta, ne asiguram ca aplicatia este folosibila pe un ecran cu diagonala mare
+\end{itemize}
 
 
 De asemenea "Test Lab" poate fi chemat din interiorul pipelineul de integrare continua pentru a rula teste automat dupa terminarea unui build pe un anumit branch, verificand flow-uri exesitente din aplicatie impotriva potentialelor regresii aparute.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlefigure]{04/07_test_lab.png}  
+  }
+  \caption{Flow testare Robo pe Samsung SM-F926U1}
+\end{figure}

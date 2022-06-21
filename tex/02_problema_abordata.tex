@@ -2,6 +2,44 @@
 
 In orase precum Bucuresti, majoritatea blocurilor au fost contruite inainte de anul 1990 si prin urmare interfoanele lor se bazeaza pe \acrshort{pots}. Traind in era digitala, utilizatorul ideal (e corporatist) isi doreste augmentarea functionalitatilor sistemului existent, pentru a nu trebui sa isi convinga toti vecinii sa investeasca in modernizarea sistemului de acces. Pentru a putea adresa cat mai multi utilizatori, solutia acestei probleme trebuie sa fie agnostica de smartphoneul si interfonul existent a utilizatorului, dar sa ofere integrari cu alte solutii de tip "Smart Home".
 
+In functie de perioada instalarii, sistemele sa impart in doua categorii: analogice si digitale. Posturile de interfon analogice sunt legate la o unitate de comanda care decodeaza semnale \acrfull{dtmf}, genereaza un semnal sinusoidal cu frecventa de 20Hz si amplitudinea de 60-90V pentru sonerie si realizeaza conexiunile necesare pentru a conecta postul de afara cu cel al apartamentului cautat. Sistemele digitale folosesc o magistrala comuna de comunicatii, fiind adresate conform unei scheme prestabilite - fiecare terminal este programat cu o adresa, insa pentru acest procedeu este nevoie de o cheie asociata unitatii de comanda.
+
+Din motive istorice, standardul unitatea centrala \acrshort{pots} genereaza semnalul sinusoidal si poarta suficient curent pentru a putea alimenta clopotul aparut cu prima generatie de telefoane. Prin urmare, sistemele digitale sunt considerate mai eficiente si mai sigure, dar si mai greu de integrat, datorita implicarii unei persoane autorizate care sa programeze intregul sistem.
+
+Aceasta lucrare va analiza solutii digitale, insa sistemul final va fi implementat impreuna cu un terminal analog. Asadar, trebuie sa intelegem in primul rand mecanismul de adresare si cum este el interpretat de centrala. Dupa cum insinueaza numele, \acrshort{dtmf} presupune generarea a doua tonuri de frecevente diferite in acelasi timp, conform liniei si coloanei tastei apasate. Acest semnal va fi intrepretat de decodorul de semnal al centralei cu ajutorul unor filtre de tip notch spre a se realiza conexiunile necesare. 
+
+\begin{table}[ht!]
+\begin{tabular}{c||c|c|c}
+ & 1209Hz & 1336Hz & 1477Hz \\
+\hline
+\hline
+697Hz & 1 & 2 & 3 \\
+\hline
+770Hz & 4 & 5 & 6 \\
+\hline
+852Hz & 7 & 8 & 9 \\
+\hline
+941Hz & * & 0 & \# \\
+\end{tabular}
+\centering
+\caption{Tabel frecvente \acrshort{dtmf}}
+\label{tab:dtmf}
+\end{table}
+
+Sistemul descris pana acum poate adresa $12-1=11$ posturi diferite (centrala este considerata si ea post si are un slot rezervat). Pentru a adresa mai multe posturi, unitatea de comanda trebuie sa includa si un circuit logic secvential pentru a retine starea ultimelor taste apasate. Astfel, ajungem la un numar satisfacator de adrese pentru aplicatia interfonului. 
+
+Un exemplu de analiza spectrala a unui astfel de semnal:
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlefigure]{02/04_spectru_dtmf.png}  
+  }
+  \caption{Spectrograma tasta "8" \cite{AunsriNattapol2016}}
+\end{figure}
+
+Se pot distinge grafic doua frecvente predominante: 852Hz si 1336Hz - cobinatia corespunaztoare tastei "8".
+
 \section {Studiu asupra realizărilor similare din domeniu}
 
 
@@ -83,8 +121,7 @@ Incuietoarea de la Yale prezinta cea mai inovativa abordare a acestul design pri
 
 Produsul celor de la Videx Security se bazeaza pe o tehnologie utilizata la scara larga si prin urmare beneficiaza de robustetea unui sistem matur. Spre deosebire de celelalte doua produse analizate, solutia celor de la Videx Security este agnostica de sistemul de operare al telefonului mobil, avand nevoie doar de o conexiune \acrshort{gsm}.
 
-Din lipsa unor standarde in domeniu, dispozitivele noi sufera de alte tipuri de probleme:
-\cite{Bitdefender2016IoT}
+Din lipsa unor standarde in domeniu, dispozitivele noi sufera de alte tipuri de probleme si vulnerabilitati, dupa un studiu realizat de cercetatorii de la Bitdefender. Majoritatea sunt in faza initiala de setare, oferind protocoale de securitate invechite sau omitandu-le complet. Este mentionat si un dispozitiv care expune un port Telnet, un protocol invechit si usor de exploatat, fara posibilitatea de a fi dezactivat \cite{Bitdefender2016IoT}.
 
 \section {Stabilirea cerințelor funcționale si nefuncționale ale sistemului}
 
