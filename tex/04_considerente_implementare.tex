@@ -1,6 +1,20 @@
 \section {Arhitectura sistemului}
 
-Sistemul prezentat presupune atat o partare hardware, cat si una software. Hardwareul realizeaza adaptarea dintre terminalul analog POTS si placa digitala de dezvoltare Raspberry Pi, iar ca software am folosit NodeJS pentru server si Android pentru a implementa un client al serverului.
+Sistemul prezentat presupune atat o partare hardware, cat si una software. Hardwareul realizeaza adaptarea dintre terminalul analog \acrshort{pots} si placa digitala de dezvoltare Raspberry Pi, iar ca software am folosit NodeJS pentru server si Android pentru a implementa un client al serverului.
+
+Cu ajutorul multimetrului am dedus schema electrica a tastaturii si am gasit contactele care sunt conectate in cazul apasarii butonului de pe ultimul rand, coloana din mijloc. Scurtcircuitarea contactorului lamelar care depisteaza ridicarea receptorului si legarea la difuzorul terminalului au fost realizate mai usor, circuitul fiind usor de parcurs vizual.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlephoto]{04/11_terminal_pots.png}  
+  }
+  \caption{Depanare si interfatare terminal POTS}
+  \medskip
+  \small
+  1 - contacte buton deschidere, 2 - contactor lamelar receptor, 3 - contacte difuzor
+\end{figure}
+
 
 \subsection {Raspberry Pi HAT}
 
@@ -39,9 +53,9 @@ Detectarea unui apel este realizata prin legarea unui \acrfull{mosfet} la bornel
   \caption{Design \acrshort{pcb} HAT \\(galben - stratul de sus, portocaliu - stratul de jos)}
 \end{figure}
 
-\subsubsection {Optocuploare homemade}
+\subsubsection {Optocuploare improvizate}
 
-Datorita crizei globale de semiconductori, o placuta breakout care care include doua optocuploare costa aproximativ 50 RON. Considerand simplitatea functionarii acestui circuit, am decis sa construiesc propria solutie, folosind componetele de baza: un rezistor pentru limitat curentul, un LED si un fotorezistor. Platforma Raspberry Pi furnizeaza pinilor sai \acrshort{gpio} 3.3V si un curent maxim de 16mA, iar un LED rosu are o cadere de tensiune de 2.4V:
+Datorita crizei globale de semiconductori, o placuta breakout care include doua optocuploare costa aproximativ 50 RON. Considerand simplitatea functionarii acestui circuit, am decis sa construiesc propria solutie, folosind componetele de baza: un rezistor pentru limitat curentul, un LED si un fotorezistor. Platforma Raspberry Pi furnizeaza pinilor sai \acrshort{gpio} 3.3V si un curent maxim de 16mA, iar un LED rosu are o cadere de tensiune de 2.4V:
 
 \begin{equation}
 \label{eq:test}
@@ -94,7 +108,7 @@ straturi & Tehnologie & Grosime & traseu & via & finisaj \\
 
 \subsection {Webserver NodeJS}
 
-NodeJS este un
+NodeJS este un mediu de rulare JavaScript asincron, cu un design centrat in jurul unei bucle de evenimente. Este proiectat pentru realizarea aplicatiilor scalabile care comunica prin retea. \cite{NodeJs2021}
 
 \subsubsection {Autentificare}
 
@@ -106,7 +120,7 @@ Pentru autentificarea si validarea credentialelor utilizatorilor, am ales metoda
   \item Semnatura
 \end{enumerate}
 
-Semnatura este calculata cu ajutorul unui algoritm simetric de hashing \acrfull{hs256} si a unei chei private aplicat pe forma codata in baza 64 a continutului si metadatelor despre token (expirare, emitator, audienta, subiect). Toate cele trei informatii sunt apoi concatenate cu caracterul "." intre, constituind forma finala ce va trimisa clientului. Clientul va folosi acest token in comunicatiile ulterioare cu serverul, acesta folosindu-se de mesaj, semnatura acestuia si cheia privata pentru a determina daca a fost sau nu modificat pe parcurs.
+Semnatura este calculata cu ajutorul unui algoritm simetric de hashing \acrfull{hs256} si a unei chei private aplicat pe forma codata in baza 64 a continutului si metadatelor despre token (expirare, emitator, audienta, subiect). Toate cele trei informatii sunt apoi concatenate cu caracterul "." intre, constituind forma finala ce va trimisa clientului. Clientul va transmite acest token in comunicatiile ulterioare cu serverul, acesta folosindu-se de mesaj, semnatura si cheia privata pentru a determina daca a fost sau nu modificat pe parcurs.
 
 Folosirea algoritmului simetric implica faptul ca secretul este utilizat atat pentru generarea de tokenuri, cat si pentru validarea lor. In cazul aplicatiei din lucrare, aceasta nu este o problema, deoarece ambele metode ruleaza in interiorul aceluias proces, fara sa expuna aplicatia la vulnerabilitati.
 
@@ -151,6 +165,14 @@ Intr-un proiect de lunga durata, documentatia joaca un rol esential in usurinta 
 
 Astfel, am ales Swagger pentru a parcurge proiectul si genera pagini de documentatie pentru toate rutele serviciului \acrshort{rest}, impreuna cu comentarii si potentialele status code-uri la care trebuie sa se astepte clientii. De asemenea, Swagger include si un client \acrshort{rest} in pagina, impreuna cu schema obiectelor si tipurile de date asteptate nu lasa loc de interpretat in comportamentul serverului.
 
+\begin{figure}[H]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlephoto]{04/10_swagger_doc.png}  
+  }
+  \caption{Documentatie generata pentru ruta /users/create}
+\end{figure}
+
 \subsection {Android}
 
 Android este o platforma mobila care s-a maturizat pe parcusul a 12 versiuni majore si principalul competitor de piata al iOS. Im dezvoltarea acestei aplicatii am folosit o abordare similara cu cea a serverului, fiind organizata intr-un pattern de design \acrshort{mvc}. O aplicatie Android poate fi alcatuita din mai multe componente cu roluri specifice: Activity, Service si BroadcastReceiver. Fiind un sistem de operare care vizeaza dispozitivele mobile, este optimizat pentru folosirea eficienta a resurselor si a bateriei, astfel ca folosirea incorecta a componentelor anterioare poate duce la oprirea accidentala a aplicatiei sau a unui serviciu in timpul unor operatiuni importante.
@@ -169,6 +191,16 @@ Pe langa organizarea proiectului in module logice in functie de functionalitati,
 \subsection {Server}
 
 Chiar daca autentificarea prin interfata grafica de administrator beneficiaza de acelasi standard de securitate ca si ceilalti clienti, am ales sa o expun pe un port diferit de cel al \acrshort{api}-ul, permitand flexibilitate maxima utilizatorului final in alegerea expunerii serviciilor. Personal, am expus serviciul de API pe un port rutat public si interfata pe un port privat, blocat din firewall. In esenta, orice utilizator normal poate interactiona cu sistemul atata timp cat este autentificat, insa interfata de administrare este disponibila doar din interiorul retelei din acasa.
+
+\begin{figure}[h!]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlelongfigure]{04/09_serviciu_intercom.png}  
+  }
+  \caption{Implementarea metodei pentru permis accesul din IntercomService}
+\end{figure}
+
+Secventa de generare a comenzilor pentru deschiderea interfonului se afla in clasa IntercomService, aceasta secventa include: obtinerea mutexului, ridicarea receptorului, asteptarea pentru o secunda, apasarea butonului pentru raspuns de doua ori, cu o pauza de 1.2s intre si in final eliberarea mutexului.
 
 \subsection {Baza de date}
 

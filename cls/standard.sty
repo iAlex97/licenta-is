@@ -228,19 +228,19 @@ prefix=std@
 \fancyfoot{}																								 % clear previous footer settings
 \fancyhead[L]{\leftmark}															    	 % show in the left pages the chapter title
 \fancyfoot[C]{\thepage}																	     % show in the center pages the page number
-\setlength{\headheight}{14pt}																 % change the head height for the header (default is 14pt)
+\setlength{\headheight}{15pt}																 % change the head height for the header (default is 14pt)
 \renewcommand{\headrulewidth}{1pt}													 % width of the line under the header (default is 1pt, modify to 0pt if you want to erase it)
 
 \renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}} % modify how the chapter name is used in the header
 \newcommand{\myLettrine}[2]{\lettrine[lines=2, lraise=0.15]{#1}{#2}}        % define how the first letter of the chapter looks
 
 %decide until what depth are the table of contents/figures and tables shown
-\setcounter{tocdepth}{3}
-\setcounter{lofdepth}{2}
-\setcounter{lotdepth}{2}
+\setcounter{tocdepth}{1}
+% \setcounter{lofdepth}{2}
+% \setcounter{lotdepth}{2}
 
 % defines adviser command (needed in the titlepage)
-\newcommand\advisor[1]{\renewcommand\@advisor{Conf. dr. ing. #1}}
+\newcommand\advisor[1]{\renewcommand\@advisor{Prof. Dr. Ing. #1}}
 \newcommand\@advisor{}
 
 % titlepage; change only if you have to
