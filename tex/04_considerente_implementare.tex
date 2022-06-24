@@ -110,6 +110,32 @@ straturi & Tehnologie & Grosime & traseu & via & finisaj \\
 
 NodeJS este un mediu de rulare JavaScript asincron, cu un design centrat in jurul unei bucle de evenimente. Este proiectat pentru realizarea aplicatiilor scalabile care comunica prin retea. \cite{NodeJs2021}
 
+\begin{figure}[H]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlefigure]{04/12_node_js_system.png}  
+  }
+  \caption{Ilustrare event loop si callback queue \cite{DevelopPaper2019}}
+\end{figure}
+
+Pentru a intelege cum ruleaza codul javascript in acest mediu de rulare, trebuie sa ne familiarizam cu modeul de asincroneitate pus la dispozitie, care difera semnificativ de cel multi-threadded. Codul JavaScript este parcurs cu ajutorul engine-ului V8 si este tradus in apeluri la libraria nativa "libuv" care se va ocupa de executarea lor plasarea in coada de evenimente. Atunci cand "libuv" are nevoie sa faca un apel sincronde sistem, precum interogarea unui server DNS, o face prin intermediul unui thread-pool, atasand un callback pentru a fi chemat atunci cand este gata.
+
+\subsubsection {Criptare HTTPS}
+
+Conform cerintelor functionale, canalul de comunicare dintre client si server trebuie sa fie securizat cu un protocol \acrfull{https} pentru a permite trimiterea credentialelor fara a fi susceptibile la atacuri de tip \acrfull{mitm}. S-a ales folosirea Let's Encrypt, un serviciu gratuit pentru emiterea unui certificat semnat de o autoritate reputabila.
+
+Pentru a verifica identitatea serverului, clientului ii este cerut sa afiseze un sir de date la o ruta statica prestabilita, dovedind astfel autoritate asupra serverului caruia ii va fi emis certificatul. Dupa completarea acesor pasi si emiterea certificatului, configurarea serverului sa implementeze protocolul \acrshort{https} este relativ simpla:
+
+\begin{figure}[H]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlefigure]{04/13_configurare_ssl.png}  
+  }
+  \caption{Configurare aplicatie NestJs pentru a folosi certificate}
+\end{figure}
+
+Este de mentionat ca incepand cu versiunea de Android 9 (Pie) ca parte dintr-o initiativa de marire a securitatii, sistemul de operare va bloca conexiunile PLAINTEXT daca aplicatiile nu configureaza o exceptie pentru server \cite{Digicert2018}. De asemenea, prezentarea unor certiifcate self-signed sau insuficiente informatii vor produce rezultate similare, fiind nevoie ca serverul sa prezinte intregul lant de certificate (al serverului, ale autoritatilor intermediare si in final cel al autoritatii centrale). 
+
 \subsubsection {Autentificare}
 
 Pentru autentificarea si validarea credentialelor utilizatorilor, am ales metoda \acrfull{jwt}, un standard open source in industrie conform RFC 7519. In cea mai compacta forma a sa, acesta este compus din trei parti, despartite prin caracterul ".":
@@ -128,7 +154,7 @@ Un avantaj al \acrshort{jwt} este faptul ca serverul nu trebuie sa intretina sta
 
 \subsubsection {NestJS}
 
-Construit peste cel mai popular framwork pentru aplicatii web disponibil pentru Node.js, NestJS imbunatateste experienta dezvoltarii serviciilor folosind functii experimentale din Typescript care permit interpretarea la transpilare a decoratorilor pentru metode si clase. De asemenea urmareste un design \acrshort{mvc} si are pachete intretinute oficial pentru taskuri comune, cum ar fi conectarea la o baza de date sau proiectarea unui mecanism de autentificare si verificare a identiatii utilizatorilor.
+Construit peste cel mai popular framwork pentru aplicatii web disponibil pentru Node.js, NestJS imbunatateste experienta dezvoltarii serviciilor web folosind functii experimentale din Typescript care permit interpretarea la transpilare a decoratorilor pentru metode si clase. De asemenea urmareste un design \acrshort{mvc} si are pachete intretinute oficial pentru taskuri comune, cum ar fi conectarea la o baza de date sau proiectarea unui mecanism de autentificare si verificare a identiatii utilizatorilor.
 
 \subsubsection {Mutex}
 
@@ -200,7 +226,7 @@ Chiar daca autentificarea prin interfata grafica de administrator beneficiaza de
   \caption{Implementarea metodei pentru permis accesul din IntercomService}
 \end{figure}
 
-Secventa de generare a comenzilor pentru deschiderea interfonului se afla in clasa IntercomService, aceasta secventa include: obtinerea mutexului, ridicarea receptorului, asteptarea pentru o secunda, apasarea butonului pentru raspuns de doua ori, cu o pauza de 1.2s intre si in final eliberarea mutexului.
+Secventa de generare a comenzilor pentru deschiderea interfonului se afla in clasa IntercomService, aceasta secventa include: obtinerea mutexului, ridicarea receptorului, asteptarea pentru o secunda, apasarea butonului pentru raspuns de doua ori, cu o pauza de 1.2s intre si in final eliberarea mutexului. Secventa pentru respingerea unui apel a fost implementata intr-o maniera similara, presupunand doar ridicarea receptorului si inchiderea sa dupa un interval arbitrar de timp.
 
 \subsection {Baza de date}
 
@@ -219,6 +245,16 @@ Salvam astfel id-ul utilizatorului care le-a generat impreuna cu ele, iar la mom
 \subsection {Aplicatie mobila}
 
 Pentru a evita complet problema rularii apelurilor de retea pe threadul gresit, am folosit un client \acrshort{rest} numit Retrofit, bazat pe OkHttp. Aceasta se ocupa sa coordoneze un ThreadPool (o colectie de threaduri ce executa taskuri de acelasi tip), astfel ca atunci cand aplicatia cheama un serviciu, se alege unul din threaduri spre a se executa cererea, raspunsul venind sub forma unui callback pe threadul principal.
+
+\begin{figure}[H]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlefigure]{04/14_di_network_module.png}  
+  }
+  \caption{Configurare modul retea, impreuna cu dependintele sale directe}
+\end{figure}
+
+Datorita adnotarilor @Singleton toate obiectele din acest modul vor fi instantiate o singura data pe durata aplicatiei, oferind un punct de acces centralizat pentru toate operatiile ce implica chemarea serviciilor \acrshort{rest}.
 
 De asemenea, am configurat Retrofit sa foloseasca Gson pentru serializarea si deserializarea \acrshort{dto}-urilor din format \acrshort{json} in instante ale claselor din Java. Pentru aceasta operatiune se foloseste de \acrshort{api}-ul reflectiv oferit de limbajul Java spre a chema constructorul implicit al unei clase si a seta valorile variabilelor sale.
 
