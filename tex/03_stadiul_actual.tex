@@ -68,6 +68,13 @@ Deoarece MongoDB are nevoie de suport pentru 64 biti, nu poate fi instalata pe a
 
 Pentru transformarea si validarea obiectelor de JavaScript in documente ce vor fi stocate in baza de date, am ales Mongoose.
 
+
+\subsection {Firebase Cloud Messaging}
+
+Pentru transmiterea notificarilor si evenimentelor in timp real catre dispozitive mobile s-au luat in calcul mai multe solutii de tip Pub/Sub, insa solutia finala aleasa a fost Firebase, datorita stabilitatii ridicate prin integrarea stransa cu sistemul de operare. In spate, se folosesc Google Play Services pentru a se livra informatiile utilizatorului intr-o maniera eficienta, sistemul putand sa interzie usor evenimentele pentru trezi cat mai putin procesul dispozitivului notificat.
+
+Alte solutii investigate au fost OneSignal si MQTT, cel din urma fiind folosit de Facebook in aplicatia lor de mesagerie \cite{LucyZhang2021}. Acest protocol a fost proiectat pentru a trimite date de telemetrie de la sonde din spatiu, mentinand consumul de baterie si latime de banda la minim. Chiar daca acest sistem prezinta anumite avantaje, complexitatea ridicata de implementare a fost factorul care a influentat decizia finala de a de a folosi Firebase. 
+
 \subsection {Client}
 
 Android este o platforma mobile care s-a maturizat pe parcusul a 12 versiuni majore si principalul competitor de piata al iOS. Avand experienta anterioara ca programator Android si in special cu limbajul de programare Java, a fost o alegere convenabila pentru un prototip rapid.

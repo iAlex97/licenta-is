@@ -124,37 +124,61 @@ Produsul celor de la Videx Security se bazeaza pe o tehnologie utilizata la scar
 Din lipsa unor standarde in domeniu, dispozitivele noi sufera de alte tipuri de probleme si vulnerabilitati, dupa un studiu realizat de cercetatorii de la Bitdefender. Majoritatea sunt in faza initiala de setare, oferind protocoale de securitate invechite sau omitandu-le complet. Este mentionat si un dispozitiv care expune un port Telnet, un protocol invechit si usor de exploatat, fara posibilitatea de a fi dezactivat \cite{Bitdefender2016IoT}.
 
 \section {Stabilirea cerințelor funcționale si nefuncționale ale sistemului}
-// todo: impartit in functionale/nefunctionale
 
-\subsection{Controlul accesului intr-un apartament}
+Cerintele functionale ale acestui sistem vor fi impartite conform tabelului urmator, ele fiind detaliate mai jos.
+
+\begin{table}[ht!]
+\begin{tabular}{l|l}
+\hline
+Cerinte functionale (F) & Cerinte nefunctionale (NF) \\
+\hline
+\hline
+\textbf{F1.} Controlul accesului in apartament & \textbf{NF1.} Functie raspuns automat \\
+\hline
+\textbf{F2.} Expunerea unui serviciu REST & \textbf{NF2.} Control granular asupra datelor \\
+\hline
+\textbf{F3.} Dezvoltare client Android & \textbf{NF3.} Expunerea unui flux duplex VoIP \\
+\hline
+\textbf{F4.} Criptarea informatiilor transmise & \\
+\hline
+\textbf{F5.} Managementul accesului la sistem & \\
+\hline
+\end{tabular}
+\centering
+\caption{Tabel stabilire cerinte}
+\label{tab:funcnefunc}
+\end{table}
+
+\subsection{(F1) Controlul accesului in apartament}
 
 Scopul principal al acestui sistem este de a oferi sau nu acces intr-o incinta, prin urmare consider aceasta cea mai importanta cerinta functionala.
 
-\subsection{Expunerea unui serviciu REST pentru interfatarea cu alte sisteme}
+\subsection{(F2) Expunerea unui serviciu REST pentru interfatarea cu alte sisteme}
 
 Expunerea si abstractizarea terminalului \acrshort{pots} este realizata printr-un set de servicii \acrfull{rest} care controleaza starea sa. Acest lucru ne permite interfatarea cu aplicatia mobila, interfata de administrare web si alte servicii precum Google Home/Google Assistant/Apple HomeKit.
 
-\subsection{Implementarea unei functii pentru raspuns automat}
-
-Aceasta functie va permite utilizatorului sa stabileasca o perioada de timp pentru care sistemul va oferi accesul neconditionat.
-
-\subsection{Dezvoltarea unui client mobil Android}
+\subsection{(F3) Dezvoltarea unui client mobil Android}
 
 Principalul client care va interactiona cu serviciile \acrshort{rest} va fi aplicatia mobila ce va avea rolul de a notifica userul cand ii suna interfonul si de a controla starea sistemului.
 
-\subsection{Control granular asupra datelor stocate}
+\subsection{(F4) Criptarea comunicatiilor cu serviciile web}
+
+Avand in vedere nivelul de acces pe care l-ar oferi un exploit al acestei solutii, comunicatiile intre server si clienti trebuie realizate printr-un canal criptat de tip \acrfull{ssl}. Credentialele userului si ulterior tokenul de acces trebuie trimise doar dupa verificarea autenticitatii serverului si a pachetelor trimise.
+
+\subsection{(F5) Oferirea si revocarea accesului la sistem}
+
+Dorim de exemplu sa oferim acces neconditionat unui prieten apropiat pentru a intra in bloc fara a mai suna la interfon. De asemenea ar trebui sa putem realiza si inversul acestei operatii.
+
+
+\subsection{(NF1) Implementarea unei functii pentru raspuns automat}
+
+Aceasta functie va permite utilizatorului sa stabileasca o perioada de timp pentru care sistemul va oferi accesul neconditionat.
+
+\subsection{(NF2) Control granular asupra datelor stocate}
 
 Arhitectura aplicatiei necesita interactiunea cu o baza de date, care poate fi tinuta in cloud, pentru convenabilitate sau local.
 Folosind tehnologii de containerizare precum Docker, putem stoca baza de date local, informatiile fiind stocate intr-un mediu controlat.
 
-\subsection{Criptarea comunicatiilor cu serviciile web}
-
-Avand in vedere nivelul de acces pe care l-ar oferi un exploit al acestei solutii, comunicatiile intre server si clienti trebuie realizate printr-un canal criptat de tip \acrfull{ssl}. Credentialele userului si ulterior tokenul de acces trebuie trimise doar dupa verificarea autenticitatii serverului si a pachetelor trimise.
-
-\subsection{Oferirea si revocarea accesului la sistem}
-
-Dorim de exemplu sa oferim acces neconditionat unui prieten apropiat pentru a intra in bloc fara a mai suna la interfon. De asemenea ar trebui sa putem realiza si inversul acestei operatii.
-
-\subsection{Expunerea unui flux duplex audio prin tehnologia VoIP}
+\subsection{(NF3) Expunerea unui flux duplex audio prin tehnologia VoIP}
 
 Pasul final in dezvoltarea acestui sistem ar fi interfatarea cu un \acrfull{adc} si un \acrfull{dac} si expunerea streamurilor de date prin \acrfull{voip}
