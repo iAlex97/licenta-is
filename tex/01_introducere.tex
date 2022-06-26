@@ -2,22 +2,23 @@
 
 \subsection {Realizarea unui studiu de piata pentru determinarea fezabilitatii solutiei}
 
-In continuare voi realiza un scurt studiu de piata pe nisa sistemelor \acrfull{iot} destinate uzului casnic. Un caz particular de astfel de dispozitive sunt cele care indeplinesc functia de interfon sau ofera contrulul accesului intr-o incinta de la distanta.
+Pentru realizarea unui sistem \acrfull{iot} care sa se plieze pentru necesitatile secolului 21, este necesara o studiere mai aprofundata a caracteristicilor tehnice specificice. Astfel capitolul de introducere contureaza ideile principale despre realizarea unui studiu de piata pentru determinarea fezabilitatii si pasii necesari pentru proiectarea unui sistem compatibil \acrshort{pots}.
 
-In momentul de fata exista pe piata o multitudine de produse de tip incuietoare inteligenta sau sisteme tip interfon GSM, atat de la producatori cunoscuti cat si de la branduri nou infiintate. Aceasta lucrare va analiza trei tipuri de solutii existente, cu implementari diferite, incercand sa identifice functionalitati comune, avantaje si dezvantaje dintr-o plaja cat mai mare de dispozitive.
+In continuare se va realiza un scurt studiu de piata pe nisa sistemelor \acrshort{iot} destinate uzului casnic. Un caz particular de astfel de dispozitive sunt cele care indeplinesc functia de interfon sau ofera contrulul accesului intr-o incinta de la distanta.
 
-Solutiile prezentate mai sus au dezavantaljul ca nu au fost concepute sa fie integrate cu un sistem existent, intr-un bloc mai vechi. Prin urmare exista un segment de piata de utilizatori care ar dori sa benefecieze de functiile intefonului inteligent, dar nu pot deoarece asta ar presupune schimbarea sistemului din intreaga cladire.
+In momentul de fata exista pe piata o multitudine de produse de tip incuietoare inteligenta sau sisteme tip interfon GSM, atat de la producatori cunoscuti cat si de la branduri nou infiintate. Aceasta lucrare va analiza trei tipuri de solutii existente, cu implementari diferite, incercand sa identifice functionalitati comune, avantaje si dezvantaje regasite intr-o plaja cat mai mare de dispozitive de pe piata.
+
+Situatia actuala din Romania prezinta o piata unica cu o nevoie de imbunatatire in ceea ce priveste sistemele actuale de interfon, deoarece majoritatea dintre ele au fost integrate in infrastructura blocurilor construite in trecut. Prin urmare exista un segment de piata de utilizatori care ar dori sa benefecieze de functiile intefonului inteligent, dar nu au aceasta posibilitatea deoarece ar presupune schimbarea sistemului din intreaga cladire.
 
 
 \subsection {Dezvoltarea unui sistem compatibil POTS pentru interfatarea in reteaua IoT}
 
-Pentru a putea oferi functiile inteligente unei audiente cat mai large, sistemul propus in aceasta lucrare se poate conecta la reteaua \acrfull{pots} printr-o simpla mufa RJ11.
+Sistemul propus in aceasta lucrare se poate conecta la reteaua \acrfull{pots} printr-o simpla mufa RJ11 lucru ce confera posibilitatea populatiei la adoptarea unei imbunatatiri la solutia actuala.
 
 
-\section {Descrierea domeniului din care face parte tema de licența}
+\section {Descrierea domeniului din care face parte proiectul de diploma}
 
-Aceasta lucrare face parte dintr-un domeniu mai vechi, dar care a prins amploare recent, domeniul automatizarilor casnice si IoT. 
-
+Unul dintre scopurile principale ale acestui proiect este evidentierea domeniului de automatizari \acrshort{iot} casnice adoptat din ce in ce mai des de consumatori domestici. [smart home devices usage research]
 
 \subsection {Istoric}
 
@@ -34,9 +35,21 @@ Pentru consumatori, dezvoltarile din urmatorii ani au adus usi automate pentru g
 
 \subsection {Stadiu actual}
 
-Solutiile de tip "Smart Home" din prezent se integreaza in general cu o retea precum Espressif, Apple HomeKit sau Google Home. Aceasta permite controlul dispozitvelor conectate prin intermediul telefonului mobil.
+In prezent solutiile de tip Smart Home ofera o multitudine de functionalitati, aduna si agrega informatii de la diferiti senzori plasati in casa si agrega informatiile spre a fi afisat un rezumat utilizatorului. Printre informatiile monitorizate se pot 
+
+Solutiile de tip "Smart Home" din prezent se integreaza in general cu o retea precum Espressif, Apple HomeKit sau Google Home. Aceasta permite controlul dispozitvelor conectate prin intermediul telefonului mobil \cite{RISTESKASTOJKOSKA20171454}.
 
 
 \section {Prezentare pe scurt a capitolelor}
 
-//To do
+Capitolul 1 prezinta notiuni teoretice in scopul familiarizarii cititorului in legatura cu solutiile actuale prezente pe piata sistemelor \acrshort{iot}. Inainte de propunerea unei modalitati care sa permita atingerea obiectivelor propuse, este necesar un studiu din trecut pana in prezent asupra metodelor pe baza carora sa se poata contura o idee a ceea ce s-a putut obitine, pana in acest moment pe piata.
+
+Copitolul 2 ilustreaza perspectiva utilizatorului doritor de automatizarea tehnologica a lucrurilor ce il inconjoara. Acest capitol se axeaza si pe o prezentarea scurta a catorva dispozitive ce indeplinesc functia de incuietoare inteligenta, fiind comparate pentru a identifica punctele comune, dar si functiile unice ale sistemelor studiate.
+
+Capitolul 3 incepe prin prezentarea inovatiilor tehnologice implementate si acceptate de catre societate in prezent. Aceste inovatii au fost mentionate datorita aportului adus in schimbarea paradigmei procesarii multiplelor surse de informatii provenite de la utilizatori pentru facilitarea activitatilor zilnice. In urma analizei literaturii de specialitate se detaliaza solutiile componete ale sistemului ce va fi implementat.
+
+Pe baza notiunilor teoretice dobandite in capitolele anterioare, Capitolul 4 prezinta detalii tehnice cat si algoritmi utilizati in solutia propusa. De asemenea se contureaza pasii efectuati in conceperea metodei propuse pentru indeplinirea scopului. Asadar, in continuare lucrarea detaliaza arhitectura sistemului, conceperea unui \acrshort{hat} pentru Raspberry Pi, dar si componeta software alcatuita din server si clienti. Ultima etapa a procesului de dezvoltare a implicat testarea componentelor individuale cat si intregul ansamblu.
+
+Capitolul 5 demonstreaza 3 utilizari ale modului de functionare al aplicatiei din perspectiva utilizatorului.
+
+Structura proiectului de diploma se termina prin mentionarea concluziilor si contributiilor originale aduse in urma dobandirii cunostintelor teoretice si practice. Faptul ca tehnologia avanseaza cu pasi rapizi si zilnic apar solutii noi, se vor contura de asemenea perspective viitoare de studiat.
