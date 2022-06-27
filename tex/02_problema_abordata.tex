@@ -6,7 +6,7 @@
 
 Din motive istorice, unitatea centrală \acrshort{pots} generează semnalul sinusoidal 'si poartă suficient curent pentru a putea alimenta clopotul apărut în prima genera'tie de telefoane. Prin urmare, sistemele digitale sunt considerate mai eficiente 'si mai sigure, dar 'si mai greu de integrat, datorită implicării unei persoane autorizate care să programeze întregul sistem.
 
-Această lucrare vă analiza solu'tii digitale, însă sistemul final vă fi implementat pe un terminal analog. A'sadar, trebuie să în'telegem în primul rând mecanismul de adresare 'si cum este el interpretat de centrală. După cum insinuează numele, \acrshort{dtmf} presupune generarea a două tonuri de frecevente diferite în acela'si timp, conform liniei 'si coloanei tastei apăsate. Acest semnal vă fi intrepretat de decodorul de semnal al centralei cu ajutorul unor filtre de tip notch spre a se realiza conexiunile necesare. 
+Această lucrare va analiza solu'tii digitale, însă sistemul final va fi implementat pe un terminal analog. A'sadar, trebuie să în'telegem în primul rând mecanismul de adresare 'si cum este el interpretat de centrală. După cum insinuează numele, \acrshort{dtmf} presupune generarea a două tonuri de frecevente diferite în acela'si timp, conform liniei 'si coloanei tastei apăsate. Acest semnal va fi intrepretat de decodorul de semnal al centralei cu ajutorul unor filtre de tip notch spre a se realiza conexiunile necesare. 
 
 \begin{table}[ht!]
 \begin{tabular}{c||c|c|c}
@@ -45,7 +45,7 @@ Se pot distinge grafic două frecven'te predominante: 852Hz 'si 1336Hz - cobinat
 
 \subsection {Videx UK}
 
-Interfoanele \acrshort{gsm} de la Videx sunt conectate la re'teaua mobilă de telefonie 'si permit operarea unei por'ti prin intermediul unui releu. Ele necesită doar o sursă de curent externă, o antenă 'si o cartelă \acrfull{sim} pentru a opera.
+Interfoanele \acrshort{gsm} de la Videx sunt conectate la re'teaua mobilă de telefonie 'si permit operarea unei por'ti prin intermediul unui releu. Ele necesită doar o sursă de curent externă, o antenă 'si o cartelă \acrfull{sim} pentru a opera \cite{VidexUk}.
 
 \begin{figure}[h!]
   \centering
@@ -59,7 +59,7 @@ Printre func'tionalită'tile principale se numără:
 \begin{itemize}
   \item Poate include un cititor de carduri \acrshort{rfid} 'si cheie
   \item Versiune rezistentă la vandalism
-  \item Până la 4 numere de telefon per apartament, pentru redundantă. În cazul în care primul număr nu se poate apela sau nu răspunde, se vă încercă următorul număr programat
+  \item Până la 4 numere de telefon per apartament, pentru redundantă. În cazul în care primul număr nu se poate apela sau nu răspunde, se va încercă următorul număr programat
   \item Oferă aplica'tie Android 'si iOS pentru programat unitatea
 \end{itemize}
 
@@ -131,6 +131,7 @@ Cerin'tele func'tionale ale acestui sistem vor fi împăr'tite conform tabelului
 \begin{tabular}{l|l}
 \hline
 Cerin'te func'tionale (F) & Cerin'te nefunc'tionale (NF) \\
+ & \\
 \hline
 \hline
 \textbf{F1.} Controlul accesului în apartament & \textbf{NF1.} Func'tie răspuns automat \\
@@ -149,37 +150,44 @@ Cerin'te func'tionale (F) & Cerin'te nefunc'tionale (NF) \\
 \label{tab:funcnefunc}
 \end{table}
 
-\subsection{(F1) Controlul accesului în apartament}
+\noindent
+\textit{(F1) Controlul accesului în apartament}
 
 Scopul principal al acestui sistem este de a oferi sau nu acces într-o incintă, prin urmare consider aceasta cea mai importantă cerin'tă func'tională.
 
-\subsection{(F2) Expunerea unui serviciu REST pentru interfa'tarea cu alte sisteme}
+\noindent
+\textit{(F2) Expunerea unui serviciu REST pentru interfa'tarea cu alte sisteme}
 
 Expunerea 'si abstractizarea terminalului \acrshort{pots} este realizată printr-un set de servicii \acrfull{rest} care controlează starea sa. Acest lucru ne permite interfa'tarea cu aplica'tia mobilă, interfa'ta de administrare web 'si alte servicii precum Google Home/Google Assistant/Apple HomeKit.
 
-\subsection{(F3) Dezvoltarea unui client mobil Android}
+\noindent
+\textit{(F3) Dezvoltarea unui client mobil Android}
 
-Principalul client care va interac'tiona cu serviciile \acrshort{rest} va fi aplica'tia mobilă ce vă avea rolul de a notifica userul în eventualitatea declan'sării soneriei interfonul 'si de a controla starea sistemului.
+Principalul client care va interac'tiona cu serviciile \acrshort{rest} va fi aplica'tia mobilă ce va avea rolul de a notifica userul în eventualitatea declan'sării soneriei interfonul 'si de a controla starea sistemului.
 
-\subsection{(F4) Criptarea comunica'tiilor cu serviciile web}
+\noindent
+\textit{(F4) Criptarea comunica'tiilor cu serviciile web}
 
 Având în vedere nivelul de acces pe care l-ar oferi o exploatare a unei vulnerabilitati al acestei solu'tii, comunica'tiile între server 'si clien'ti trebuie realizate printr-un canal criptat de tip \acrfull{ssl}. Credentialele u'serului 'si ulterior tokenul de acces trebuie trimise doar după verificarea autenticită'tii serverului 'si a pachetelor trimise.
 
-\subsection{(F5) Oferirea 'si revocarea accesului la sistem}
+\noindent
+\textit{(F5) Oferirea 'si revocarea accesului la sistem}
 
 Dorim de exemplu să oferim acces necondi'tionat unui prieten apropiat pentru a intra în bloc fară a mai suna la interfon. De asemenea ar trebui să putem realiza 'si inversul acestei opera'tii.
 
+\noindent
+\textit{(NF1) Implementarea unei func'tii pentru răspuns automat}
 
-\subsection{(NF1) Implementarea unei func'tii pentru răspuns automat}
+Această func'tie va permite utilizatorului să stabilească o perioadă de timp pentru care sistemul va oferi accesul necondi'tionat.
 
-Această func'tie vă permite utilizatorului să stabilească o perioadă de timp pentru care sistemul vă oferi accesul necondi'tionat.
-
-\subsection{(NF2) Control granular asupra datelor stocate}
+\noindent
+\textit{(NF2) Control granular asupra datelor stocate}
 
 Arhitectura aplica'tiei necesită interac'tiunea cu o bază de date, care poate fi 'tinută în cloud, pentru convenabilitate sau local.
 Folosind tehnologii de containerizare precum Docker, putem stoca baza de date local, informa'tiile fiind stocate într-un mediu controlat.
 
-\subsection{(NF3) Expunerea unui flux duplex audio prin tehnologia VoIP}
+\noindent
+\textit{(NF3) Expunerea unui flux duplex audio prin tehnologia VoIP}
 
 Pasul final în dezvoltarea acestui sistem ar fi interfa'tarea cu un \acrfull{adc} 'si un \acrfull{dac} 'si expunerea streamurilor de date prin \acrfull{voip}
 

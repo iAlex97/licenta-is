@@ -250,6 +250,9 @@ prefix=std@
 \newcommand\advisor[1]{\renewcommand\@advisor{Prof. Dr. Ing. #1}}
 \newcommand\@advisor{}
 
+\newcommand\advisormic[1]{\renewcommand\@advisormic{As. Drd. Ing. #1}}
+\newcommand\@advisormic{}
+
 % titlepage; change only if you have to
 \renewcommand{\maketitle}{
 \begin{titlepage}																					  
@@ -290,7 +293,7 @@ Departamentul de Automatic\u a \c si Ingineria Sistemelor\\
 \vspace{3em}
 \Large{
 \begin{flushleft}
-\ifbool{@eng}{Advisor}{Coordonator}\\\@advisor
+\ifbool{@eng}{Advisor}{Coordonatori}\\\@advisor\\\@advisormic
 \end{flushleft}
 \vfill
 \begin{center}

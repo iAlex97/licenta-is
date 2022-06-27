@@ -52,7 +52,7 @@ Printre alternative viabile pentru acest tip de proiect se numără Java, C\# sa
 Ca framework de dezvoltare a serverului am ales NestJS, oferind o arhitectura \acrfull{mvc} 'si multe func'tionalită'ti convenabile precum:
 
 \begin{itemize}
-  \item Framework de injectare a dependin'telor: graful (aciclic) de dependin'te al aplica'tiei este calculat la pornire, fiecărui modul îi sunt satisfăcute dependin'tele, instantiindu-se obiectele necesare o singura data. Daca sunt detecta'ti cicli în graful de dependin'te sau nu exista informa'tii despre cum se poate instantia o clasa, atunci se vă arunca o eroare de runtime 'si aplica'tia va ie'si cu un status code de eroare. 
+  \item Framework de injectare a dependin'telor: graful (aciclic) de dependin'te al aplica'tiei este calculat la pornire, fiecărui modul îi sunt satisfăcute dependin'tele, instantiindu-se obiectele necesare o singura data. Daca sunt detecta'ti cicli în graful de dependin'te sau nu exista informa'tii despre cum se poate instantia o clasa, atunci se va arunca o eroare de runtime 'si aplica'tia va ie'si cu un status code de eroare. 
   \item Separarea logicii de control a aplica'tiei de interfa'tă 'si de date. Utilizatorul interac'tionează cu interfa'tă, care notifică controllerul de ac'tiunile utilizatorului, controllerul execută logica aplica'tiei 'si actualizează modelul corespunzător, schimbări ce se vor reflecta în interfa'tă.
   \item Îmbină elemente de \acrfull{oop}, \acrfull{fp} 'si \acrfull{frp}. De exemplu: modulele 'si serviciile sunt clase, iar decoratorii claselor sunt func'tii care modifică comportamentul func'tiilor adnotate prin compunere.
 
@@ -64,7 +64,8 @@ Din punct de vedere al scalabilitatii, pradigma rela'tională scaleaza vertical 
 
 Deoarece MongoDB are nevoie de suport pentru 64 bi'ti, nu poate fi instalată pe acela'si Raspberry Pi unde va rula 'si serverul. Pentru simplitudine, s-a ales un serviciu online de hosting gratis, numit Mongo Atlas. A'sadar, serverul NodeJS trebuie să 'tină cont de eventuala laten'tă mai ridicată în comunicarea cu baza de date 'si retransmiterea comenzilor în cazul în care niciunul din nodurile clusterului nu este disponibil.
 
-\subsubsection {Object Document Mapping}
+\noindent
+\textit{Object Document Mapping}
 
 Pentru transformarea 'si validarea obiectelor de JavaScript în documente ce vor fi stocate în baza de date, am ales Mongoose.
 
