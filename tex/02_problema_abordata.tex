@@ -1,12 +1,12 @@
 \section {Formularea problemei}
 
-In orase precum Bucuresti, majoritatea blocurilor au fost contruite inainte de anul 1990 si prin urmare interfoanele lor se bazeaza pe \acrshort{pots}. Traind in era digitala, utilizatorul ideal (e corporatist) isi doreste augmentarea functionalitatilor sistemului existent, pentru a nu trebui sa isi convinga toti vecinii sa investeasca in modernizarea sistemului de acces. Pentru a putea adresa cat mai multi utilizatori, solutia acestei probleme trebuie sa fie agnostica de smartphoneul si interfonul existent a utilizatorului, dar sa ofere integrari cu alte solutii de tip "Smart Home".
+În ora'se precum Bucure'sti, majoritatea blocurilor au fost contruite înainte de anul 1990 'si prin urmare interfoanele lor se bazează pe \acrshort{pots}. Trăind în era digitală, utilizatorul ideal î'si dore'ste augmentarea functionalitatilor sistemului existent, pentru a nu trebui să î'si convingă to'ti vecinii să învestească în modernizarea sistemului de acces. Pentru a putea adresa cât mai mul'ti utilizatori, solu'tia acestei probleme trebuie să fie agnostică de smartphoneul 'si interfonul existent al utilizatorului, dar să ofere integrări cu alte solu'tii de tip "Smart Home".
 
-In functie de perioada instalarii, sistemele sa impart in doua categorii: analogice si digitale. Posturile de interfon analogice sunt legate la o unitate de comanda care decodeaza semnale \acrfull{dtmf}, genereaza un semnal sinusoidal cu frecventa de 20Hz si amplitudinea de 60-90V pentru sonerie, apoi realizeaza conexiunile necesare dintre postul de afara si cel al apartamentului cautat. Sistemele digitale folosesc o magistrala comuna de comunicatii, fiind adresate conform unei scheme prestabilite - fiecare terminal este programat cu o adresa, insa pentru acest procedeu este nevoie de o cheie asociata unitatii de comanda.
+În func'tie de perioada instalării, sistemele să împart în două categorii: analogice 'si digitale. Posturile de interfon analogice sunt legate la o unitate de comandă care decodează semnale \acrfull{dtmf}, generează un semnal sinusoidal cu frecven'tă de 20Hz 'si amplitudinea de 60-90V pentru sonerie, apoi realizează conexiunile necesare dintre postul de afara 'si cel al apartamentului căutat. Sistemele digitale folosesc o magistrală comună de comunica'tii, fiind adresate conform unei scheme prestabilite - fiecare terminal este programat cu o adresă, însă pentru acest procedeu este nevoie de o cheie asociată unită'tii de comandă.
 
-Din motive istorice, unitatea centrala \acrshort{pots} genereaza semnalul sinusoidal si poarta suficient curent pentru a putea alimenta clopotul aparut in prima generatie de telefoane. Prin urmare, sistemele digitale sunt considerate mai eficiente si mai sigure, dar si mai greu de integrat, datorita implicarii unei persoane autorizate care sa programeze intregul sistem.
+Din motive istorice, unitatea centrală \acrshort{pots} generează semnalul sinusoidal 'si poartă suficient curent pentru a putea alimenta clopotul apărut în prima genera'tie de telefoane. Prin urmare, sistemele digitale sunt considerate mai eficiente 'si mai sigure, dar 'si mai greu de integrat, datorită implicării unei persoane autorizate care să programeze întregul sistem.
 
-Aceasta lucrare va analiza solutii digitale, insa sistemul final va fi implementat pe un terminal analog. Asadar, trebuie sa intelegem in primul rand mecanismul de adresare si cum este el interpretat de centrala. Dupa cum insinueaza numele, \acrshort{dtmf} presupune generarea a doua tonuri de frecevente diferite in acelasi timp, conform liniei si coloanei tastei apasate. Acest semnal va fi intrepretat de decodorul de semnal al centralei cu ajutorul unor filtre de tip notch spre a se realiza conexiunile necesare. 
+Această lucrare vă analiza solu'tii digitale, însă sistemul final vă fi implementat pe un terminal analog. A'sadar, trebuie să în'telegem în primul rând mecanismul de adresare 'si cum este el interpretat de centrală. După cum insinuează numele, \acrshort{dtmf} presupune generarea a două tonuri de frecevente diferite în acela'si timp, conform liniei 'si coloanei tastei apăsate. Acest semnal vă fi intrepretat de decodorul de semnal al centralei cu ajutorul unor filtre de tip notch spre a se realiza conexiunile necesare. 
 
 \begin{table}[ht!]
 \begin{tabular}{c||c|c|c}
@@ -22,30 +22,30 @@ Aceasta lucrare va analiza solutii digitale, insa sistemul final va fi implement
 941Hz & * & 0 & \# \\
 \end{tabular}
 \centering
-\caption{Tabel frecvente \acrshort{dtmf}}
+\caption{Tabel frecven'te \acrshort{dtmf}}
 \label{tab:dtmf}
 \end{table}
 
-Sistemul descris pana acum poate adresa $12-1=11$ posturi diferite (centrala este considerata si ea post si are un slot rezervat). Pentru a adresa mai multe posturi, unitatea de comanda trebuie sa includa si un circuit logic secvential pentru a retine starea ultimelor taste apasate. Astfel, ajungem la un numar satisfacator de adrese pentru aplicatia interfonului. 
+Sistemul descris până acum poate adresa $12-1=11$ posturi diferite (centrala este considerată 'si ea post 'si are un slot rezervat). Pentru a adresa mai multe posturi, unitatea de comandă trebuie să includă 'si un circuit logic secven'tial pentru a re'tine starea ultimelor taste apăsate. Astfel, ajungem la un număr satisfăcător de adrese pentru aplica'tia interfonului. 
 
-Un exemplu de analiza spectrala a unui astfel de semnal:
+Un exemplu de analiza spectrală a unui astfel de semnal:
 
 \begin{figure}[h!]
   \centering
   \fbox {
     \includegraphics[width=\singlefigure]{02/04_spectru_dtmf.png}  
   }
-  \caption{Spectrograma tasta "8" \cite{AunsriNattapol2016}}
+  \caption{Spectrogramă tasta "8" \cite{AunsriNattapol2016}}
 \end{figure}
 
-Se pot distinge grafic doua frecvente predominante: 852Hz si 1336Hz - cobinatia corespunaztoare tastei "8".
+Se pot distinge grafic două frecven'te predominante: 852Hz 'si 1336Hz - cobinatia corespunaztoare tastei "8".
 
 \section {Studiu asupra realizărilor similare din domeniu}
 
 
 \subsection {Videx UK}
 
-Interfoanele \acrshort{gsm} de la Videx sunt conectate la reteaua mobila de telefonie si permit operarea unei porti prin intermediul unui releu. Ele necesita doar o sursa de curent externa, o antena si o cartela \acrfull{sim} pentru a opera.
+Interfoanele \acrshort{gsm} de la Videx sunt conectate la re'teaua mobilă de telefonie 'si permit operarea unei por'ti prin intermediul unui releu. Ele necesită doar o sursă de curent externă, o antenă 'si o cartelă \acrfull{sim} pentru a opera.
 
 \begin{figure}[h!]
   \centering
@@ -55,18 +55,18 @@ Interfoanele \acrshort{gsm} de la Videx sunt conectate la reteaua mobila de tele
   \caption{Sistem interfon Videx GSM \cite{VidexUk}}
 \end{figure}
 
-Printre functionalitatile principale se numara:
+Printre func'tionalită'tile principale se numără:
 \begin{itemize}
-  \item Poate include un cititor de carduri \acrshort{rfid} si cheie
-  \item Versiune rezistenta la vandalism
-  \item Pana la 4 numere de telefon per apartament, pentru redundanta. In cazul in care primul numar nu se poate apela sau nu raspunde, se va incerca urmatorul numar programat
-  \item Ofera aplicatie Android si iOS pentru programat unitatea
+  \item Poate include un cititor de carduri \acrshort{rfid} 'si cheie
+  \item Versiune rezistentă la vandalism
+  \item Până la 4 numere de telefon per apartament, pentru redundantă. În cazul în care primul număr nu se poate apela sau nu răspunde, se vă încercă următorul număr programat
+  \item Oferă aplica'tie Android 'si iOS pentru programat unitatea
 \end{itemize}
 
 Dezavantaje:
 
 \begin{itemize}
-  \item Nu ofera integrare cu servicii din reteaua \acrshort{iot}
+  \item Nu oferă integrare cu servicii din re'teaua \acrshort{iot}
 \end{itemize}
 
 \subsection {Google Nest x Yale Lock}
@@ -82,21 +82,21 @@ Dezavantaje:
 Avantaje:
 \begin{itemize}
   \item Permite accesul prin intermediul unui PIN ales de utilizator
-  \item Ofera alerte cand cineva inchide sau deschide usa
-  \item Ofera integrare cu Google Home si Nest Home
+  \item Oferă alerte când cineva închide sau deschide u'sa
+  \item Oferă integrare cu Google Home 'si Nest Home
 \end{itemize}
 
 Dezavantaje:
 \begin{itemize}
-  \item Are nevoie de 4 baterii tip AA pentru a functiona
-  \item Nu are acces cu cheie sau cartela
-  \item Nu are versiune rezistenta
+  \item Are nevoie de 4 baterii tip AA pentru a func'tionă
+  \item Nu are acces cu cheie sau cartelă
+  \item Nu are versiune rezistentă
 \end{itemize}
 
 
 \subsection {Level Lock - Touch Edition}
 
-Level Lock este o incuietoare inteligenta de tip zavor. Are un design minimalist si ascunde partea electronica in interiorul usii pentru mai multa securitate.
+Level Lock este o încuietoare inteligentă de tip zăvor. Are un design minimalist 'si ascunde partea electronică în interiorul u'sii pentru mai multă securitate.
 
 \begin{figure}[h!]
   \centering
@@ -108,77 +108,78 @@ Level Lock este o incuietoare inteligenta de tip zavor. Are un design minimalist
 
 Avantaje:
 \begin{itemize}
-  \item Multiple modalitati de acces, printre care: amprenta, PIN
-  \item Ofera alerte cand cineva inchide sau deschide usa
-  \item Ofera integrare cu Google Home si Nest Home
+  \item Multiple modalită'ti de acces, printre care: amprentă, PIN
+  \item Oferă alerte când cineva închide sau deschide u'sa
+  \item Oferă integrare cu Google Home 'si Nest Home
 \end{itemize}
 
-\subsection {Comparatii}
+\subsection {Compara'tii}
 
-Produsele de mai sus adreseaza probleme usor diferite, dar incearca sa ofere functionalitati similare. Sistemul oferit de Videx Security prezinta un design rezistent, dar familiar tuturor utilizatorilor si este destinat cladirilor cu mai multi locatari. In contrast, cele doua incuietori inteligente ofera o integrare avansata in reteaua \acrshort{iot} si multiple cai de acces, dar sunt destinate unei singure locuinte.
+Produsele de mai sus adresează probleme u'sor diferite, dar încearcă să ofere func'tionalită'ti similare. Sistemul oferit de Videx Security prezinta un design rezistent, dar familiar tuturor utilizatorilor 'si este destinat clădirilor cu mai mul'ti locatari. În contrast, cele două încuietori inteligente oferă o integrare avansată în re'teaua \acrshort{iot} 'si multiple căi de acces, dar sunt destinate unei singure locuin'te.
 
-Incuietoarea de la Yale prezinta cea mai inovativa abordare a acestul design prin decizia deliberata de a nu oferi posibilitatea de acces cu cheie. Astfel, simplifica partea mecanica eliminand singura cale de acces din exterior catre mecanismul incuietorii.
+Încuietoarea de la Yale prezintă cea mai inovativa abordare a acestul design prin decizia deliberată de a nu oferi posibilitatea de acces cu cheie. Astfel, simplifică partea mecanică eliminând singura cale de acces din exterior către mecanismul încuietorii.
 
-Produsul celor de la Videx Security se bazeaza pe o tehnologie utilizata la scara larga si prin urmare beneficiaza de robustetea unui sistem matur. Spre deosebire de celelalte doua produse analizate, solutia celor de la Videx Security este agnostica de sistemul de operare al telefonului mobil, avand nevoie doar de o conexiune \acrshort{gsm}.
+Produsul celor de la Videx Security se bazează pe o tehnologie utilizată la scară largă 'si prin urmare beneficiază de robuste'tea unui sistem matur. Spre deosebire de celelalte două produse analizate, solu'tia celor de la Videx Security este agnostică de sistemul de operare al telefonului mobil, având nevoie doar de o conexiune \acrshort{gsm}.
 
-Din lipsa unor standarde in domeniu, dispozitivele noi sufera de alte tipuri de probleme si vulnerabilitati, dupa un studiu realizat de cercetatorii de la Bitdefender. Majoritatea sunt in faza initiala de setare, oferind protocoale de securitate invechite sau omitandu-le complet. Este mentionat si un dispozitiv care expune un port Telnet, un protocol invechit si usor de exploatat, fara posibilitatea de a fi dezactivat \cite{Bitdefender2016IoT}.
+Din lipsa unor standarde în domeniu, dispozitivele noi suferă de alte tipuri de probleme 'si vulnerabilită'ti, după un studiu realizat de cercetătorii de la Bitdefender. Majoritatea sunt în faza ini'tială de setare, oferind protocoale de securitate învechite sau omitandu-le complet. Este men'tionat 'si un dispozitiv care expune un port Telnet, un protocol învechit 'si u'sor de exploatat, fără posibilitatea de a fi dezactivat \cite{Bitdefender2016IoT}.
 
-\section {Stabilirea cerințelor funcționale si nefuncționale ale sistemului}
+\section {Stabilirea cerin'telor func'tionale 'si nefunc'tionale ale sistemului}
 
-Cerintele functionale ale acestui sistem vor fi impartite conform tabelului urmator, ele fiind detaliate mai jos.
+Cerin'tele func'tionale ale acestui sistem vor fi împăr'tite conform tabelului următor, ele fiind detaliate mai jos.
 
 \begin{table}[ht!]
 \begin{tabular}{l|l}
 \hline
-Cerinte functionale (F) & Cerinte nefunctionale (NF) \\
+Cerin'te func'tionale (F) & Cerin'te nefunc'tionale (NF) \\
 \hline
 \hline
-\textbf{F1.} Controlul accesului in apartament & \textbf{NF1.} Functie raspuns automat \\
+\textbf{F1.} Controlul accesului în apartament & \textbf{NF1.} Func'tie răspuns automat \\
 \hline
 \textbf{F2.} Expunerea unui serviciu REST & \textbf{NF2.} Control granular asupra datelor \\
 \hline
 \textbf{F3.} Dezvoltare client Android & \textbf{NF3.} Expunerea unui flux duplex VoIP \\
 \hline
-\textbf{F4.} Criptarea informatiilor transmise & \\
+\textbf{F4.} Criptarea informa'tiilor transmise & \\
 \hline
 \textbf{F5.} Managementul accesului la sistem & \\
 \hline
 \end{tabular}
 \centering
-\caption{Tabel stabilire cerinte}
+\caption{Tabel stabilire cerin'te}
 \label{tab:funcnefunc}
 \end{table}
 
-\subsection{(F1) Controlul accesului in apartament}
+\subsection{(F1) Controlul accesului în apartament}
 
-Scopul principal al acestui sistem este de a oferi sau nu acces intr-o incinta, prin urmare consider aceasta cea mai importanta cerinta functionala.
+Scopul principal al acestui sistem este de a oferi sau nu acces într-o incintă, prin urmare consider aceasta cea mai importantă cerin'tă func'tională.
 
-\subsection{(F2) Expunerea unui serviciu REST pentru interfatarea cu alte sisteme}
+\subsection{(F2) Expunerea unui serviciu REST pentru interfa'tarea cu alte sisteme}
 
-Expunerea si abstractizarea terminalului \acrshort{pots} este realizata printr-un set de servicii \acrfull{rest} care controleaza starea sa. Acest lucru ne permite interfatarea cu aplicatia mobila, interfata de administrare web si alte servicii precum Google Home/Google Assistant/Apple HomeKit.
+Expunerea 'si abstractizarea terminalului \acrshort{pots} este realizată printr-un set de servicii \acrfull{rest} care controlează starea sa. Acest lucru ne permite interfa'tarea cu aplica'tia mobilă, interfa'ta de administrare web 'si alte servicii precum Google Home/Google Assistant/Apple HomeKit.
 
 \subsection{(F3) Dezvoltarea unui client mobil Android}
 
-Principalul client care va interactiona cu serviciile \acrshort{rest} va fi aplicatia mobila ce va avea rolul de a notifica userul cand ii suna interfonul si de a controla starea sistemului.
+Principalul client care va interac'tiona cu serviciile \acrshort{rest} va fi aplica'tia mobilă ce vă avea rolul de a notifica userul în eventualitatea declan'sării soneriei interfonul 'si de a controla starea sistemului.
 
-\subsection{(F4) Criptarea comunicatiilor cu serviciile web}
+\subsection{(F4) Criptarea comunica'tiilor cu serviciile web}
 
-Avand in vedere nivelul de acces pe care l-ar oferi un exploit al acestei solutii, comunicatiile intre server si clienti trebuie realizate printr-un canal criptat de tip \acrfull{ssl}. Credentialele userului si ulterior tokenul de acces trebuie trimise doar dupa verificarea autenticitatii serverului si a pachetelor trimise.
+Având în vedere nivelul de acces pe care l-ar oferi o exploatare a unei vulnerabilitati al acestei solu'tii, comunica'tiile între server 'si clien'ti trebuie realizate printr-un canal criptat de tip \acrfull{ssl}. Credentialele u'serului 'si ulterior tokenul de acces trebuie trimise doar după verificarea autenticită'tii serverului 'si a pachetelor trimise.
 
-\subsection{(F5) Oferirea si revocarea accesului la sistem}
+\subsection{(F5) Oferirea 'si revocarea accesului la sistem}
 
-Dorim de exemplu sa oferim acces neconditionat unui prieten apropiat pentru a intra in bloc fara a mai suna la interfon. De asemenea ar trebui sa putem realiza si inversul acestei operatii.
+Dorim de exemplu să oferim acces necondi'tionat unui prieten apropiat pentru a intra în bloc fară a mai suna la interfon. De asemenea ar trebui să putem realiza 'si inversul acestei opera'tii.
 
 
-\subsection{(NF1) Implementarea unei functii pentru raspuns automat}
+\subsection{(NF1) Implementarea unei func'tii pentru răspuns automat}
 
-Aceasta functie va permite utilizatorului sa stabileasca o perioada de timp pentru care sistemul va oferi accesul neconditionat.
+Această func'tie vă permite utilizatorului să stabilească o perioadă de timp pentru care sistemul vă oferi accesul necondi'tionat.
 
 \subsection{(NF2) Control granular asupra datelor stocate}
 
-Arhitectura aplicatiei necesita interactiunea cu o baza de date, care poate fi tinuta in cloud, pentru convenabilitate sau local.
-Folosind tehnologii de containerizare precum Docker, putem stoca baza de date local, informatiile fiind stocate intr-un mediu controlat.
+Arhitectura aplica'tiei necesită interac'tiunea cu o bază de date, care poate fi 'tinută în cloud, pentru convenabilitate sau local.
+Folosind tehnologii de containerizare precum Docker, putem stoca baza de date local, informa'tiile fiind stocate într-un mediu controlat.
 
 \subsection{(NF3) Expunerea unui flux duplex audio prin tehnologia VoIP}
 
-Pasul final in dezvoltarea acestui sistem ar fi interfatarea cu un \acrfull{adc} si un \acrfull{dac} si expunerea streamurilor de date prin \acrfull{voip}
+Pasul final în dezvoltarea acestui sistem ar fi interfa'tarea cu un \acrfull{adc} 'si un \acrfull{dac} 'si expunerea streamurilor de date prin \acrfull{voip}
+
