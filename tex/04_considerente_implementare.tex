@@ -71,6 +71,7 @@ Am lipit rezistorul de 90$\Omega$ la anodul ledului 'si am încastrat LED-ul îm
 \begin{figure}[!ht]
 \begin{center}
   \subfloat[Schema optocuplor \cite{OptocouplerCircuitsToday}]{\label{fig:optoa}\includegraphics[width=\doublefigure]{04/01_optocoupler_scheme.jpg}}
+  \hfill
   \subfloat[Componenta realizată manual]{\label{fig:optob}\includegraphics[width=\doublefigure]{04/02_optocoupler_assembly.png}}
   \caption{Schema electrică optocuplor (a) 'si rezultat ansablu (b)}
   \label{fig:opto}
@@ -100,6 +101,7 @@ straturi & Tehnologie & Grosime & traseu & via & finisaj \\
 \begin{figure}[!ht]
 \begin{center}
   \subfloat[Vedere din fata \acrshort{pcb}]{\label{fig:hata}\includegraphics[width=\doublefigure]{04/06_pcb_front.png}}
+  \hfill
   \subfloat[Vedere din spate \acrshort{pcb}]{\label{fig:hatb}\includegraphics[width=\doublefigure]{04/06_pcb_back.png}}
   \caption{Randare plăcuta înainte de comandat}
   \label{fig:hat}
@@ -134,7 +136,7 @@ Pentru a verifica identitatea serverului, clientului îi este cerut să afi'seze
   \caption{Configurare aplica'tie NestJs pentru a folosi certificate}
 \end{figure}
 
-Este de men'tionat că începând cu versiunea de Android 9 (Pie) ca parte dintr-o ini'tiativă de mărire a securită'tii, sistemul de operare vă bloca conexiunile PLAINTEXT dacă aplica'tiile nu configurează o excep'tie pentru server \cite{Digicert2018}. De asemenea, prezentarea unor certiifcate self-signed sau insuficiente informa'tii vor produce rezultate similare, fiind nevoie ca serverul să prezinte întregul lan't de certificate (al serverului, ale autorită'tilor intermediare 'si în final cel al autorită'tii centrale). 
+Este de men'tionat că începând cu versiunea de Android 9 (Pie) ca parte dintr-o ini'tiativă de mărire a securită'tii, sistemul de operare va bloca conexiunile PLAINTEXT dacă aplica'tiile nu configurează o excep'tie pentru server \cite{Digicert2018}. De asemenea, prezentarea unor certiifcate self-signed sau insuficiente informa'tii vor produce rezultate similare, fiind nevoie ca serverul să prezinte întregul lan't de certificate (al serverului, ale autorită'tilor intermediare 'si în final cel al autorită'tii centrale). 
 
 \subsubsection {Autentificare}
 
@@ -146,7 +148,7 @@ Pentru autentificarea 'si validarea credentialelor utilizatorilor, am ales metod
   \item Semnătură
 \end{enumerate}
 
-Semnătura este calculată cu ajutorul unui algoritm simetric de hashing \acrfull{hs256} 'si a unei chei private aplicat pe forma codată în baza 64 a con'tinutului 'si metadatelor despre token (expirare, emi'tător, audien'tă, subiect). Toate cele trei informa'tii sunt apoi concatenate cu caracterul "." între, constituind forma finală ce vă trimisă clientului. Clientul va transmite acest token în comunica'tiile ulterioare cu serverul, acesta folosindu-se de mesaj, semnătură 'si cheia privată pentru a determina dacă a fost sau nu modificat pe parcurs.
+Semnătura este calculată cu ajutorul unui algoritm simetric de hashing \acrfull{hs256} 'si a unei chei private aplicat pe forma codată în baza 64 a con'tinutului 'si metadatelor despre token (expirare, emi'tător, audien'tă, subiect). Toate cele trei informa'tii sunt apoi concatenate cu caracterul "." între, constituind forma finală ce va trimisă clientului. Clientul va transmite acest token în comunica'tiile ulterioare cu serverul, acesta folosindu-se de mesaj, semnătură 'si cheia privată pentru a determina dacă a fost sau nu modificat pe parcurs.
 
 Folosirea algoritmului simetric implica faptul că secretul este utilizat atât pentru generarea de tokenuri, cât 'si pentru validarea lor. În cazul aplica'tiei din lucrare, aceasta nu este o problemă, deoarece ambele metode rulează în interiorul aceluia'si proces, fară să expună aplica'tia la vulnerabilită'ti.
 
@@ -173,7 +175,7 @@ Acest comportament este dorit pentru a informa clien'tii serviciului în cazul �
 
 \subsubsection {Validarea entită'tilor}
 
-Folose'ste func'tii din Typescript 'si NestJS pentru a adaugă 'si citi metadate prin intermediul decoratorilor de metode. \acrfull{dto} este reprezentarea unui model din baza de date, dar encodat favorabil pentru interpretarea u'soară a clien'tilor. Majoritar, acesta vă con'tine mai pu'tine câmpuri decât exista în baza de date (reprezentarea unui utilizator nu vă avea câmpul pentru parola).
+Folose'ste func'tii din Typescript 'si NestJS pentru a adaugă 'si citi metadate prin intermediul decoratorilor de metode. \acrfull{dto} este reprezentarea unui model din baza de date, dar encodat favorabil pentru interpretarea u'soară a clien'tilor. Majoritar, acesta va con'tine mai pu'tine câmpuri decât exista în baza de date (reprezentarea unui utilizator nu va avea câmpul pentru parola).
 
 Câmpurile unui \acrfull{dto} sunt adnotate cu tipul a'steptat la runtime, 'si printr-un interceptor de nest care rulează atunci când este invocată metoda unui controller \acrshort{rest}, obiectul primit că parametru este verificat contra specifica'tiilor din metadate. În cazul în care validarea e'suează, clientului îi este întors status 400 (Bad Request) indicând o eroare de formatare a requestului.
 
@@ -216,9 +218,23 @@ Pe lângă organizarea proiectului în module logice în func'tie de func'tional
 
 \subsection {Server}
 
-Chiar dacă autentificarea prin interfa'tă grafică de administrator beneficiază de acela'si standard de securitate că 'si ceilal'ti clien'ti, s-a ales crearea unui alt server pe un port diferit de cel al \acrshort{api}-ul, permi'tând flexibilitate maximă utilizatorului final în alegerea expunerii serviciilor. Personal, am expus serviciul de API pe un port rutat public 'si interfa'tă pe un port privat, blocat din firewall. În esen'tă, orice utilizator normal poate interac'tiona cu sistemul atâta timp cât este autentificat, însă interfa'ta de administrare este disponibilă doar din interiorul re'telei din acasă.
+Chiar dacă autentificarea prin interfa'tă grafică de administrator beneficiază de acela'si standard de securitate că 'si ceilal'ti clien'ti, s-a ales crearea unui alt server pe un port diferit de cel al \acrshort{api}-ul, permi'tând flexibilitate maximă utilizatorului final în alegerea expunerii serviciilor.
 
-\begin{figure}[h!]
+Personal, am expus serviciul de API pe un port rutat public 'si interfa'tă pe un port privat, blocat din firewall. În esen'tă, orice utilizator normal poate interac'tiona cu sistemul atâta timp cât este autentificat, însă interfa'ta de administrare este disponibilă doar din interiorul re'telei din acasă.
+
+\begin{figure}[H]
+\begin{center}
+  \subfloat[Strategie \acrshort{jwt} pentru autentificarea clien'tilor \acrshort{api}]{\label{fig:jwta}\includegraphics[width=\doublefigure]{04/15_node_jwt_api.png}}
+  \hfill
+  \subfloat[Strategie \acrshort{jwt} pentru autentificarea din browser, prin intermediul cookies]{\label{fig:jwtb}\includegraphics[width=\doublefigure]{04/16_node_jwt_cookie.png}}
+  \caption{Implementare logica autentificare utilizatori}
+  \label{fig:jwt}
+\end{center}
+\end{figure}
+
+Secven'ta de generare a comenzilor pentru deschiderea interfonului se află în clasa IntercomService, această secven'tă include: ob'tinerea mutexului, ridicarea receptorului, a'steptarea pentru o secundă, apăsarea butonului pentru răspuns de două ori, cu o pauză de 1.2s între 'si în final eliberarea mutexului. Secven'tă pentru respingerea unui apel a fost implementată într-o manieră similară, presupunând doar ridicarea receptorului 'si închiderea sa după un interval prestabilit de timp.
+
+\begin{figure}[H]
   \centering
   \fbox {
     \includegraphics[width=\singlelongfigure]{04/09_serviciu_intercom.png}  
@@ -226,7 +242,15 @@ Chiar dacă autentificarea prin interfa'tă grafică de administrator beneficiaz
   \caption{Implementarea metodei pentru permis accesul din IntercomService}
 \end{figure}
 
-Secven'ta de generare a comenzilor pentru deschiderea interfonului se află în clasa IntercomService, această secven'tă include: ob'tinerea mutexului, ridicarea receptorului, a'steptarea pentru o secundă, apăsarea butonului pentru răspuns de două ori, cu o pauză de 1.2s între 'si în final eliberarea mutexului. Secven'tă pentru respingerea unui apel a fost implementată într-o manieră similară, presupunând doar ridicarea receptorului 'si închiderea sa după un interval prestabilit de timp.
+Pentru statistici, metoda care persistă un Log în baza de date oferă utilizatorului posibilitatea de a-și declară poziția curentă prin prezentarea latitudinii și longintudinii. În cazul în care clientul alege să nu împărtășească aceasta informație, serverul vă extrage adresa \acrshort{ip} din request sau din headerul X-Forwarded-For dacă este chemat prin intermediul unui proxy și vă folosi serviciul extern \href{http://ip-api.com/json}{ip-api.com} care va returna o locație aproximativă.
+
+\begin{figure}[H]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlelongfigure]{04/17_node_ip_decorator.png}  
+  }
+  \caption{Implementarea metodei pentru permis accesul din IntercomService}
+\end{figure}
 
 \subsection {Baza de date}
 
@@ -258,13 +282,23 @@ Datorită adnotărilor @Singleton toate obiectele din acest modul vor fi instan'
 
 De asemenea, am configurat Retrofit să folosească Gson pentru serializarea 'si deserializarea \acrshort{dto}-urilor din format \acrshort{json} în instan'te ale claselor din Java. Pentru această opera'tiune se folose'ste de \acrshort{api}-ul reflectiv oferit de limbajul Java spre a chema constructorul implicit al unei clase 'si a seta valorile variabilelor sale.
 
+Urmarind un model \acrshort{mvc} in realizarea aplica'tiei, trebuie sa definim metodele implemenetate de view pentru a fi chemate din interiorul callbackurilor de la nivelul layerului de date. Se decupleaza astfel logica de business de prezentarea interfetei, structura ce faciliteaza testarea si extensibilitatea codului. Cuplarea modulelor trebuie sa fie slaba pentru a evita modificarea excesiva a componentelor cand se schimba specificatiile \cite{sokolova2013android}. 
+
+\begin{figure}[H]
+  \centering
+  \fbox {
+    \includegraphics[width=\singlephoto]{04/18_android_main_view.png}
+  }
+  \caption{Definirea evenimentelor viewului principal}
+\end{figure}
+
 \section {Testarea sistemului}
 
 \subsection {Server}
 
 Chiar dacă NestJS oferă suport pentru scrierea de teste unitare prin adăugarea de fisere $.spec.ts$, cea mai mare provocare a fost mockuirea modulului care comunica cu pinii \acrshort{gpio} ai Raspberry Pi. Wrapperul de JavaScript comunică prin intermediul \acrfull{napi} cu o librărie statică ce realizează serializarea 'si deserializarea datelor dintre Node.js/V8 VM 'si C/C++. Această librărie se linkeaza la rândul ei cu $bcm2835$ pentru a ob'tine acces la pinii \acrshort{gpio} 'si alte func'tii din sistemul de \acrfull{io} al cipului Broadcom 2835.
 
-Astfel suntem prezenta'ti cu o problemă, librăria \acrshort{napi} poate fi compilată pe alte arhitecturi, dar cu siguran'tă vă genera o excep'tie la rulare când dependin'tă să, $bcm2835$, va încerca să execute instruc'tiuni invalide. Este nevoie de o logică de control care să permită rularea 'si returnarea unor date prestabilite, când se detectează pornirea pe o arhitectura invalidă, cum ar fi în cazul testelor rulate în mod automat prin intermediul pipelineului de integrare continuă.
+Astfel suntem prezenta'ti cu o problemă, librăria \acrshort{napi} poate fi compilată pe alte arhitecturi, dar cu siguran'tă va genera o excep'tie la rulare când dependin'tă să, $bcm2835$, va încerca să execute instruc'tiuni invalide. Este nevoie de o logică de control care să permită rularea 'si returnarea unor date prestabilite, când se detectează pornirea pe o arhitectura invalidă, cum ar fi în cazul testelor rulate în mod automat prin intermediul pipelineului de integrare continuă.
 
 \subsubsection {Teste unitare}
 
